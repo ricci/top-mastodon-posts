@@ -20,12 +20,11 @@ export default function Layout({ children }: { children: ReactElement }) {
 	return (
 		<Flex direction="column" gap={4} height="100%">
 			<Box
-				backgroundColor={alternateBackgroundColor}
-				boxShadow="base"
 				as="header"
-				paddingY={4}
+				paddingTop={400}
+				paddingBottom={50}
 			>
-				<Container>
+				<Container centerContent>
 					<NextLink href="/">
 						<Flex alignItems="center" gap={2}>
 							<Box height={8}>
@@ -35,8 +34,8 @@ export default function Layout({ children }: { children: ReactElement }) {
 									style={{ height: "100%", width: "auto" }}
 								/>
 							</Box>
-							<Heading as="h1" size="lg">
-								{appName}
+							<Heading as="h1" size="xl">
+				                            Mastodon Academy
 							</Heading>
 						</Flex>
 					</NextLink>
@@ -59,6 +58,10 @@ export default function Layout({ children }: { children: ReactElement }) {
 							By{" "}
 							<InlineLink href="https://www.patrikcsak.com/">
 								Patrik Csak
+							</InlineLink>
+                                                        {" "}and{" "}
+							<InlineLink href="https://ricci.io/">
+								Robert Ricci
 							</InlineLink>
 						</Text>
 
