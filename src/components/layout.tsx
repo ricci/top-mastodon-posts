@@ -13,6 +13,7 @@ import { appName, separator } from "@/library";
 import { InlineLink } from "@/components";
 import Image from "next/image";
 import logo from "../../public/images/logo.svg";
+import ma from "../../public/images/mastodon-academy.svg";
 
 export default function Layout({ children }: { children: ReactElement }) {
 	const alternateBackgroundColor = useColorModeValue("gray.100", "gray.700");
@@ -35,7 +36,11 @@ export default function Layout({ children }: { children: ReactElement }) {
 								/>
 							</Box>
 							<Heading as="h1" size="xl">
-				                            Mastodon Academy
+                                                            <Image
+                                                                    src={ma}
+                                                                    alt="Mastodon Academy"
+                                                                    style={{ height: "50px", width: "auto" }}
+                                                            />
 							</Heading>
 						</Flex>
 					</NextLink>
