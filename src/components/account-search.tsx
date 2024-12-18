@@ -11,6 +11,7 @@ import {
 	FormLabel,
 	Heading,
 	Input,
+        IconButton,
 	InputGroup,
 	InputRightElement,
 	Spinner,
@@ -19,6 +20,7 @@ import {
 import { MastodonDisplayName } from "@/components";
 import { useDebounce } from "react-use";
 import { constants } from "@/library";
+import { LuSearch } from "react-icons/lu";
 
 const mastodonDotSocial = "mastodon.social";
 const { mastodonSearchMinimumQueryLength } = constants;
@@ -48,13 +50,12 @@ export default function AccountSearch() {
 		<Flex direction="column" gap={4} width="100%">
 			<form onSubmit={(event) => event.preventDefault()}>
 				<FormControl isInvalid={isQueryDebouncedTooShort}>
-					<FormLabel>Account</FormLabel>
 					<InputGroup>
 						<Input
 							onInput={(event) =>
 								setQuery((event.target as HTMLInputElement).value)
 							}
-							placeholder="e.g. @kottke@botsin.space"
+							placeholder="e.g. @einstein@advanced.studies"
 							type="search"
 						/>
 						{isLoading && (
@@ -62,6 +63,9 @@ export default function AccountSearch() {
 								<Spinner size="sm" />
 							</InputRightElement>
 						)}
+                                                <IconButton aria-label="Search for user" colorScheme="blue">
+                                                  <LuSearch />
+                                                </IconButton>
 					</InputGroup>
 					{isQueryDebouncedTooShort && (
 						<FormErrorMessage>
