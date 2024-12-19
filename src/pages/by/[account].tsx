@@ -47,7 +47,7 @@ const TopPosts: NextPage = () => {
 				/>
 			</Head>
 
-			<Container>
+			<Container maxWidth = "container.xl">
 	                        {account && <MastodonProfile account={account} />}
 				<Flex direction="column" gap={8}>
 					{isLoadingStatuses && (

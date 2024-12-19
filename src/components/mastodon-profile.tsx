@@ -1,8 +1,8 @@
 import { MastodonAccount } from "@/types";
 import {
-    Card, CardHeader, CardBody,
-    HStack, Box,
+    Box,
     Heading,
+    HStack, VStack,
     Text
 } from "@chakra-ui/react";
 import parse from 'html-react-parser';
@@ -17,18 +17,17 @@ export default function MastodonProfile({
         <Box>
             <HStack>
                 <MastodonProfileImage account={account} />
-                <Card>
-                    <CardHeader>
+                <Box>
+                    <VStack align="left">
                         <Heading size='md'><MastodonDisplayName account={account}/></Heading>
-                    </CardHeader>
-                    <CardBody>
+                    
                         <Box>{parse(account.note)}</Box>
                         {account.fields.filter((x) => x.verified_at).map((x) => <Text>Verified {x.name} at {parse(x.value)}</Text>)}
                         <MastodonFollowButton 
                             account = {account}
                         />
-                    </CardBody>
-                </Card>
+                    </VStack>
+                </Box>
             </HStack>
         </Box>
     );
