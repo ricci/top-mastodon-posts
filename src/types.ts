@@ -20,4 +20,11 @@ export interface MastodonAccount {
 export interface MastodonStatus {
 	id: string;
 	favourites_count: number;
+	reblogs_count: number;
+        created_at: Date;
+        tags: Array<string>;
+        mentions: Array<{
+             id: string;
+             url: string;
+        }>;
 }
