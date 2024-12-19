@@ -3,11 +3,17 @@ export interface MastodonAccount {
 	acct: string;
 	avatar: string;
 	display_name: string;
+        account: string;
 	emojis: Array<{
 		shortcode: string;
 		url: string;
 	}>;
 	statuses_count: number;
+        fields: Array<{
+                name: string;
+                value: string;
+                verified_at?: string;
+        }>;
 }
 
 export interface MastodonStatus {

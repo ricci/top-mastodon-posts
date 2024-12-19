@@ -34,6 +34,7 @@ export default function useMastodonStatuses({
 			while (shouldGetMore) {
 				const searchParams: SearchParamsOption = {
 					exclude_reblogs: 1,
+		                        exclude_replies: 1,
 					limit,
 				};
 

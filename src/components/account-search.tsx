@@ -15,7 +15,11 @@ import {
 	InputGroup,
 	InputRightElement,
 	Spinner,
+        Radio, RadioGroup,
 	Text,
+        HStack,
+        VStack,
+        Container
 } from "@chakra-ui/react";
 import { MastodonDisplayName } from "@/components";
 import { useDebounce } from "react-use";
@@ -24,6 +28,12 @@ import { LuSearch } from "react-icons/lu";
 
 const mastodonDotSocial = "mastodon.social";
 const { mastodonSearchMinimumQueryLength } = constants;
+const exampleHandles = [
+    "@albert@advanced.studies",
+    "@idawgg@apple.orchard",
+    "@richard@bongo.rip",
+    "@sagan@apple.pie.from.scratch"
+];
 
 export default function AccountSearch() {
 	const [query, setQuery] = useState<string | undefined>(undefined);
@@ -51,11 +61,13 @@ export default function AccountSearch() {
 			<form onSubmit={(event) => event.preventDefault()}>
 				<FormControl isInvalid={isQueryDebouncedTooShort}>
 					<InputGroup>
+			                    <VStack width="100%">
+			                      <HStack width="100%" gap={0}>
 						<Input
 							onInput={(event) =>
 								setQuery((event.target as HTMLInputElement).value)
 							}
-							placeholder="e.g. @einstein@advanced.studies"
+							placeholder = {"e.g. " + exampleHandles[Math.floor(Math.random() * exampleHandles.length)]}
 							type="search"
 						/>
 						{isLoading && (
@@ -66,6 +78,14 @@ export default function AccountSearch() {
                                                 <IconButton aria-label="Search for user" colorScheme="blue">
                                                   <LuSearch />
                                                 </IconButton>
+			                        </HStack>
+                                                <RadioGroup>
+                                                  <HStack direction='row'>
+                                                    <Radio value='basic'>Toots</Radio>
+                                                    <Radio value='enhanced'>Crimes</Radio>
+                                                  </HStack>
+                                                </RadioGroup>
+			                    </VStack>
 					</InputGroup>
 					{isQueryDebouncedTooShort && (
 						<FormErrorMessage>

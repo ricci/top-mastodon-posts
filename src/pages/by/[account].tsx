@@ -14,7 +14,7 @@ import {
 	Progress,
 	Text,
 } from "@chakra-ui/react";
-import { MastodonDisplayName, MastodonStatusEmbed } from "@/components";
+import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile } from "@/components";
 import Head from "next/head";
 import { appName, separator } from "@/library";
 
@@ -43,18 +43,13 @@ const TopPosts: NextPage = () => {
 				<title>{title}</title>
 				<meta
 					name="description"
-					content={`Most-favorited Mastodon posts by ${accountName}`}
+					content={`${accountName} - Mastodon Academy`}
 				/>
 			</Head>
 
 			<Container>
+	                        {account && <MastodonProfile account={account} />}
 				<Flex direction="column" gap={8}>
-					<Heading as="h2" size="lg">
-						Most-favorited Mastodon posts by{" "}
-						{account ? <MastodonDisplayName account={account} /> : accountName}
-						{account ? `(${accountName})` : null}
-					</Heading>
-
 					{isLoadingStatuses && (
 						<Flex gap={4} alignItems="center">
 							<Text>Loading</Text>
@@ -92,12 +87,7 @@ const TopPosts: NextPage = () => {
 									size="sm"
 								>
 									<CardBody display="flex">
-										<MastodonStatusEmbed
-											id={status.id}
-											server={server}
-											username={username}
-											style={{ width: "100%" }}
-										/>
+					                                   {JSON.stringify(status)}
 									</CardBody>
 								</Card>
 							))}
