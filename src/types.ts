@@ -8,6 +8,7 @@ export interface MastodonAccount {
 		shortcode: string;
 		url: string;
 	}>;
+        note: string;
 	statuses_count: number;
         fields: Array<{
                 name: string;
