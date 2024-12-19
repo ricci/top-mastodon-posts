@@ -14,21 +14,17 @@ export default function MastodonProfile({
     account: MastodonAccount;
 }) {
     return(
-        <Box>
-            <HStack>
-                <MastodonProfileImage account={account} />
-                <Box>
-                    <VStack align="left">
-                        <Heading size='md'><MastodonDisplayName account={account}/></Heading>
-                    
-                        <Box>{parse(account.note)}</Box>
-                        {account.fields.filter((x) => x.verified_at).map((x) => <Text>Verified {x.name} at {parse(x.value)}</Text>)}
-                        <MastodonFollowButton 
-                            account = {account}
-                        />
-                    </VStack>
-                </Box>
-            </HStack>
-        </Box>
+        <HStack>
+            <MastodonProfileImage account={account} />
+            <VStack align="left">
+                <Heading size='md' display="flex" justifyContent = "space-between">
+                    <Box display = "flex"><MastodonDisplayName account={account}/></Box>
+                    <Box display = "flex"><MastodonFollowButton account = {account} /></Box>
+                </Heading>
+
+                <Box>{parse(account.note)}</Box>
+                {account.fields.filter((x) => x.verified_at).map((x) => <Text>Verified {x.name} at {parse(x.value)}</Text>)}
+            </VStack>
+        </HStack>
     );
 }
