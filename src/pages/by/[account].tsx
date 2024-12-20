@@ -80,7 +80,7 @@ const TopPosts: NextPage = () => {
 
 				</Flex>
 
-		                <MastodonStatusTable statuses={statuses} />
+                                {statuses && <MastodonStatusTable statuses={statuses} />}
 			</Container>
 		</>
 	);
