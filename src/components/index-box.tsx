@@ -1,9 +1,5 @@
 import { Table, Thead, Tbody, Tr, Td } from "@chakra-ui/react";
 import { MastodonStatus } from "@/types";
-import {
-    HStack,
-    Text
-} from "@chakra-ui/react";
 
 export default function MastodonProfile({
     statuses
@@ -19,7 +15,8 @@ export default function MastodonProfile({
     let totalBoosts1y: number = 0;
     let totalFavs1y: number = 0;
     const thisYear = new Date();
-    // Note: assumes that statuses are sorted
+    const formatter = new Intl.NumberFormat();
+
     if (statuses !== undefined) {
         for (const status of statuses.sort((a,b) => b.reblogs_count - a.reblogs_count)){
             totalBoosts += status.reblogs_count;
@@ -61,18 +58,18 @@ export default function MastodonProfile({
               <Tbody>
                   <Tr>
                     <Td>Citations</Td>
-                    <Td>{totalBoosts}</Td>
-                    <Td>{totalBoosts1y}</Td>
+                    <Td>{formatter.format(totalBoosts)}</Td>
+                    <Td>{formatter.format(totalBoosts1y)}</Td>
                   </Tr>
                   <Tr>
                     <Td>b-Index</Td>
-                    <Td>{bIndex}</Td>
-                    <Td>{bIndex1y}</Td>
+                    <Td>{formatter.format(bIndex)}</Td>
+                    <Td>{formatter.format(bIndex1y)}</Td>
                   </Tr>
                   <Tr>
                     <Td>f-Index</Td>
-                    <Td>{fIndex}</Td>
-                    <Td>{fIndex1y}</Td>
+                    <Td>{formatter.format(fIndex)}</Td>
+                    <Td>{formatter.format(fIndex1y)}</Td>
                   </Tr>
               </Tbody>
            </Table>);

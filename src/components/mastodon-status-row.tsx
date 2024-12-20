@@ -7,6 +7,8 @@ import {
 import parse from 'html-react-parser';
 import truncate from 'truncate-html';
 
+const formatter = new Intl.NumberFormat();
+
 export default function MastodonStatusRow({
     status
 }: {
@@ -15,7 +17,7 @@ export default function MastodonStatusRow({
     return(
         <Tr>
           <Td><Link href={status.url}>{parse(truncate(status.content,100))}</Link></Td>
-          <Td>{status.reblogs_count}</Td>
+          <Td>{formatter.format(status.reblogs_count)}</Td>
           <Td>{new Date(status.created_at).getFullYear()}</Td>
         </Tr>
     );
