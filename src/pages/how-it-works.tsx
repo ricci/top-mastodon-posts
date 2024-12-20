@@ -69,6 +69,10 @@ const HowItWorks: NextPage = () => (
 
 				<Text>
 					Source code is available on GitHub at{" "}
+					<InlineLink href="https://github.com/ricci/top-mastodon-posts">
+						ricci / top-mastodon-posts
+					</InlineLink>{". "}
+					This is a fork of
 					<InlineLink href="https://github.com/patrik-csak/top-mastodon-posts">
 						patrik-csak / top-mastodon-posts
 					</InlineLink>{" "}

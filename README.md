@@ -2,6 +2,8 @@
 
 See a Mastodon account&rsquo;s most-favo(u)rited posts
 
+This is a fork of https://github.com/patrik-csak/top-mastodon-posts that mimics the style of Google Scholar
+
 ---
 
 ## Development
