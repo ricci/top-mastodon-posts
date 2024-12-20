@@ -28,7 +28,9 @@ export interface MastodonStatus {
 	favourites_count: number;
 	reblogs_count: number;
         created_at: Date;
+        content: string;
         tags: Array<MastodonTag>;
+        url: string;
         mentions: Array<{
              id: string;
              url: string;

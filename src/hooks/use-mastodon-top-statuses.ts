@@ -18,10 +18,8 @@ export default function useMastodonTopStatuses({
 
 	if (topStatuses) {
 		//topStatuses = topStatuses.filter((status) => status.favourites_count > 0);
-		topStatuses.sort((a, b) => b.favourites_count - a.favourites_count);
+		//topStatuses.sort((a, b) => b.reblogs_count - a.reblogs_count);
 
-	        // Calculate H-Index for both favourites and boosts
-	
 	        // Find most-used hashtags
 	        let hashtagCounts = new Map();
 	        let hashtagURLs = new Map();

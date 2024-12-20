@@ -21,22 +21,28 @@ export default function MastodonProfile({
     const thisYear = new Date();
     // Note: assumes that statuses are sorted
     if (statuses !== undefined) {
-        for (const status of statuses){
+        for (const status of statuses.sort((a,b) => b.reblogs_count - a.reblogs_count)){
             totalBoosts += status.reblogs_count;
             totalFavs += status.favourites_count;
             if (bIndex +1 <= status.reblogs_count) {
                 bIndex = bIndex +1;
             }
+        }
+        for (const status of statuses.sort((a,b) => b.favourites_count - a.favourites_count)){
             if (fIndex +1 <= status.favourites_count) {
                 fIndex = fIndex +1;
             }
         }
-        for (const status of statuses.filter(s => new Date(s.created_at).getFullYear() === thisYear.getFullYear())){
+
+        const recentStatuses = statuses.filter(s => new Date(s.created_at).getFullYear() === thisYear.getFullYear());
+        for (const status of recentStatuses.sort((a,b) => b.reblogs_count - a.reblogs_count)) {
             totalBoosts1y += status.reblogs_count;
             totalFavs1y += status.favourites_count;
             if (bIndex1y +1 <= status.reblogs_count) {
                 bIndex1y = bIndex1y +1;
             }
+        }
+        for (const status of recentStatuses.sort((a,b) => b.favourites_count - a.favourites_count)) {
             if (fIndex1y +1 <= status.favourites_count) {
                 fIndex1y = fIndex1y +1;
             }
