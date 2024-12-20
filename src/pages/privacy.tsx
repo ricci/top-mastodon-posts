@@ -10,8 +10,11 @@ const Privacy: NextPage = () => (
 				<Heading as="h2">Privacy</Heading>
 
 				<Text>
-					Top Mastodon Posts retains no personal information or data. It has no
-					backend, database, caching, logging, or ads. It uses{" "}
+					This application retains no personal information or data. It has no
+					backend, database, caching, logging, or ads. The entire
+		                        application runs in your browser, and fetches only public
+		                        information from Mastodon servers.
+                                        It uses{" "}
 					<InlineLink href="https://vercel.com/analytics">
 						Vercel{apostrophe}s privacy-friendly Audiences Analytics
 					</InlineLink>
