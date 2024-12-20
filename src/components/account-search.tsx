@@ -38,7 +38,14 @@ const exampleHandles = [
     "@albert@advanced.studies",
     "@idawgg@apple.orchard",
     "@richard@bongo.rip",
-    "@sagan@apple.pie.from.scratch"
+    "@sagan@apple.pie.from.scratch",
+    "@aturing@mastodon.gay",
+    "@ramanujan@mastodon.prime",
+    "@ada@lovelace.place",
+    "@gödel@incomple",
+    "@marie@curie.rad",
+    "@grace@hop.town"
+
 ];
 
 export default function AccountSearch() {
