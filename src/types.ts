@@ -20,6 +20,7 @@ export interface MastodonAccount {
                 value: string;
                 verified_at?: string;
         }>;
+        url: string;
 }
 
 export interface MastodonStatus {

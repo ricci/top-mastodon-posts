@@ -1,5 +1,6 @@
 import { MastodonTag } from "@/types";
-import { Link,Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
+import { InlineLink } from "@/components";
 
 export default function MastodonHashtag({
 	tag,
@@ -7,6 +8,6 @@ export default function MastodonHashtag({
 	tag: MastodonTag;
 }) {
 	return (
-	    <Link href={tag.url}><Text>{"#" + tag.name}</Text></Link>
+	    <InlineLink href={tag.url}><Text>{"#" + tag.name}</Text></InlineLink>
         );
 };

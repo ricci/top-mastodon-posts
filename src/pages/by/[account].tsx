@@ -49,7 +49,7 @@ const TopPosts: NextPage = () => {
 			</Head>
 
 			<Container maxWidth = "container.xl">
-	                        {account && <MastodonProfile account={account} />}
+	                        {account && <MastodonProfile account={account} tags={hashtags} />}
 				<Flex direction="column" gap={8}>
 					{isLoadingStatuses && (
 						<Flex gap={4} alignItems="center">
@@ -78,9 +78,6 @@ const TopPosts: NextPage = () => {
 						direction="column"
 						gap={8}
 					>
-						{!isLoadingStatuses &&
-							hashtags && hashtags.map((hashtag) => <MastodonHashtag tag={hashtag} />)
-                                                }
 						{!isLoadingStatuses &&
 							statuses &&
 							statuses.map((status) => (

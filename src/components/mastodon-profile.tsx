@@ -1,4 +1,4 @@
-import { MastodonAccount } from "@/types";
+import { MastodonAccount, MastodonTag } from "@/types";
 import {
     Box,
     Heading,
@@ -6,12 +6,14 @@ import {
     Text
 } from "@chakra-ui/react";
 import parse from 'html-react-parser';
-import { MastodonDisplayName, MastodonProfileImage, MastodonFollowButton } from "@/components";
+import { MastodonDisplayName, MastodonProfileImage, MastodonFollowButton, MastodonHashtag } from "@/components";
 
 export default function MastodonProfile({
     account,
+    tags
 }: {
     account: MastodonAccount;
+    tags: Array<MastodonTag> | undefined;
 }) {
     return(
         <HStack>
@@ -24,6 +26,7 @@ export default function MastodonProfile({
 
                 <Box>{parse(account.note)}</Box>
                 {account.fields.filter((x) => x.verified_at).map((x) => <Text>Verified {x.name} at {parse(x.value)}</Text>)}
+                <HStack>{tags && tags.map(t => <MastodonHashtag tag={t}/>)}</HStack>
             </VStack>
         </HStack>
     );
