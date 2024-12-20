@@ -1,4 +1,4 @@
-import { MastodonStatus } from "@/types";
+import { MastodonStatus, MastodonTag } from "@/types";
 import { useMastodonStatuses } from "@/hooks";
 
 export default function useMastodonTopStatuses({
