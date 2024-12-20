@@ -9,10 +9,12 @@ import {
 	Card,
 	CardBody,
 	Container,
+        Box,
 	Flex,
 	Heading,
 	Progress,
 	Text,
+        HStack
 } from "@chakra-ui/react";
 import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile, MastodonHashtag, IndexBox } from "@/components";
 import Head from "next/head";
@@ -49,8 +51,10 @@ const TopPosts: NextPage = () => {
 			</Head>
 
 			<Container maxWidth = "container.xl">
-	                        {account && <MastodonProfile account={account} tags={hashtags} />}
-	                        <IndexBox statuses={statuses} />
+		                <Flex direction="row">
+                                    <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
+                                    <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
+	                        </Flex>
 				<Flex direction="column" gap={8}>
 					{isLoadingStatuses && (
 						<Flex gap={4} alignItems="center">
@@ -73,27 +77,6 @@ const TopPosts: NextPage = () => {
 						</Alert>
 					)}
 
-					<Flex
-						as="ol"
-						aria-busy={isLoadingStatuses}
-						direction="column"
-						gap={8}
-					>
-						{!isLoadingStatuses &&
-							statuses &&
-							statuses.map((status) => (
-								<Card
-									as="li"
-									key={status.id}
-									backgroundColor="#313543"
-									size="sm"
-								>
-									<CardBody display="flex">
-					                                   {JSON.stringify(status)}
-									</CardBody>
-								</Card>
-							))}
-					</Flex>
 				</Flex>
 			</Container>
 		</>
