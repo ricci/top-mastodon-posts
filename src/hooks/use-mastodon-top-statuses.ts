@@ -38,7 +38,7 @@ export default function useMastodonTopStatuses({
 	        }
 	        
 	        topHashtags = Array.from(hashtagCounts.keys()).sort((a,b) => hashtagCounts.get(b) - hashtagCounts.get(a)).slice(0,3).map(function (x) { return {name: x, url: hashtagURLs.get(x)}});
-		topStatuses = topStatuses.slice(0, 20);
+		//topStatuses = topStatuses.slice(0, 20);
 	}
 
 	return { error, isLoading, progress, topStatuses, topHashtags };

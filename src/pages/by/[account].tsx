@@ -14,7 +14,7 @@ import {
 	Progress,
 	Text,
 } from "@chakra-ui/react";
-import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile, MastodonHashtag } from "@/components";
+import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile, MastodonHashtag, IndexBox } from "@/components";
 import Head from "next/head";
 import { appName, separator } from "@/library";
 
@@ -50,6 +50,7 @@ const TopPosts: NextPage = () => {
 
 			<Container maxWidth = "container.xl">
 	                        {account && <MastodonProfile account={account} tags={hashtags} />}
+	                        <IndexBox statuses={statuses} />
 				<Flex direction="column" gap={8}>
 					{isLoadingStatuses && (
 						<Flex gap={4} alignItems="center">
