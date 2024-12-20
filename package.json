@@ -1,17 +1,18 @@
 {
   "name": "@patrik-csak/top-mastodon-posts",
+  "private": true,
   "description": "React app to see a Mastodon account's most-favo(u)rited posts",
   "homepage": "https://topmastodonposts.com",
+  "repository": "github:patrik-csak/top-mastodon-posts",
   "license": "MIT",
   "author": "Patrik Csak <p@trikcsak.com> (https://patrikcsak.com)",
-  "repository": "github:patrik-csak/top-mastodon-posts",
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
     "build:favicons": "scripts/build-favicons.sh",
-    "start": "next start",
+    "dev": "next dev",
+    "format": "prettier --write .",
     "lint": "next lint && prettier --check .",
-    "format": "prettier --write ."
+    "start": "next start"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.1",
@@ -36,6 +37,5 @@
   "devDependencies": {
     "eslint-config-prettier": "^8.6.0",
     "prettier": "2.8.4"
-  },
-  "private": true
+  }
 }
