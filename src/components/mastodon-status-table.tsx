@@ -23,7 +23,7 @@ export default function MastodonStatusTable({
                 </Tr>
             </Thead>
             <Tbody>
-                {statuses && statuses.sort((a,b) => b.reblogs_count - a.reblogs_count).slice(0,100).map(x => <MastodonStatusRow status={x}/>)}
+                {statuses && statuses.sort((a,b) => b.reblogs_count - a.reblogs_count).slice(0,100).map(x => <MastodonStatusRow key={x.id} status={x}/>)}
             </Tbody>
         </Table>
     );

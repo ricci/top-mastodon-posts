@@ -25,8 +25,8 @@ export default function MastodonProfile({
                 </Heading>
 
                 <Box>{parse(account.note)}</Box>
-                {account.fields.filter((x) => x.verified_at).map((x) => <Text>Verified {x.name} at {parse(x.value)}</Text>)}
-                <HStack>{tags && tags.map(t => <MastodonHashtag tag={t}/>)}</HStack>
+                {account.fields.filter((x) => x.verified_at).map((x) => <Text key={x.name}>Verified {x.name} at {parse(x.value)}</Text>)}
+                <HStack>{tags && tags.map(t => <MastodonHashtag key={t.name} tag={t}/>)}</HStack>
             </VStack>
         </HStack>
     );
