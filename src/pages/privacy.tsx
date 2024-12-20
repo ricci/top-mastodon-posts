@@ -14,11 +14,6 @@ const Privacy: NextPage = () => (
 					backend, database, caching, logging, or ads. The entire
 		                        application runs in your browser, and fetches only public
 		                        information from Mastodon servers.
-                                        It uses{" "}
-					<InlineLink href="https://vercel.com/analytics">
-						Vercel{apostrophe}s privacy-friendly Audiences Analytics
-					</InlineLink>
-					.
 				</Text>
 			</Flex>
 		</Container>
