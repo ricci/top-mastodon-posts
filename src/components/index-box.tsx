@@ -51,8 +51,8 @@ export default function MastodonProfile({
               <Thead>
                   <Tr>
                     <Td>Cited by</Td>
-                    <Td>All</Td>
-                    <Td>{thisYear.getFullYear()}</Td>
+                    <Td textAlign="right">All</Td>
+                    <Td textAlign="right">{thisYear.getFullYear()}</Td>
                   </Tr>
               </Thead>
               <Tbody>
