@@ -58,18 +58,18 @@ export default function MastodonProfile({
               <Tbody>
                   <Tr>
                     <Td>Citations</Td>
-                    <Td>{formatter.format(totalBoosts)}</Td>
-                    <Td>{formatter.format(totalBoosts1y)}</Td>
+                    <Td textAlign="right">{formatter.format(totalBoosts)}</Td>
+                    <Td textAlign="right">{formatter.format(totalBoosts1y)}</Td>
                   </Tr>
                   <Tr>
                     <Td>b-Index</Td>
-                    <Td>{formatter.format(bIndex)}</Td>
-                    <Td>{formatter.format(bIndex1y)}</Td>
+                    <Td textAlign="right">{formatter.format(bIndex)}</Td>
+                    <Td textAlign="right">{formatter.format(bIndex1y)}</Td>
                   </Tr>
                   <Tr>
                     <Td>f-Index</Td>
-                    <Td>{formatter.format(fIndex)}</Td>
-                    <Td>{formatter.format(fIndex1y)}</Td>
+                    <Td textAlign="right">{formatter.format(fIndex)}</Td>
+                    <Td textAlign="right">{formatter.format(fIndex1y)}</Td>
                   </Tr>
               </Tbody>
            </Table>);

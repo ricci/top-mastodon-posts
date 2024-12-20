@@ -17,7 +17,7 @@ export default function MastodonStatusRow({
     return(
         <Tr>
           <Td><Link href={status.url}>{parse(truncate(status.content,100))}</Link></Td>
-          <Td>{formatter.format(status.reblogs_count)}</Td>
+          <Td textAlign="right">{formatter.format(status.reblogs_count)}</Td>
           <Td>{new Date(status.created_at).getFullYear()}</Td>
         </Tr>
     );
