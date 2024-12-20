@@ -14,7 +14,7 @@ import {
 	Progress,
 	Text,
 } from "@chakra-ui/react";
-import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile } from "@/components";
+import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile, MastodonHashtag } from "@/components";
 import Head from "next/head";
 import { appName, separator } from "@/library";
 
@@ -31,6 +31,7 @@ const TopPosts: NextPage = () => {
 		isLoading: isLoadingStatuses,
 		progress: statusesLoadingProgress,
 		topStatuses: statuses,
+	        topHashtags: hashtags
 	} = useMastodonTopStatuses({ server, username });
 
 	const title = account
@@ -77,6 +78,9 @@ const TopPosts: NextPage = () => {
 						direction="column"
 						gap={8}
 					>
+						{!isLoadingStatuses &&
+							hashtags && hashtags.map((hashtag) => <MastodonHashtag tag={hashtag} />)
+                                                }
 						{!isLoadingStatuses &&
 							statuses &&
 							statuses.map((status) => (
