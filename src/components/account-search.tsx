@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useMastodonSearch } from "@/hooks";
 import Link from "next/link";
+import NextLink from "next/link";
 import {
 	Avatar,
+        Box,
 	Card,
 	CardBody,
 	Flex,
@@ -19,12 +21,16 @@ import {
 	Text,
         HStack,
         VStack,
-        Container
+        Container,
 } from "@chakra-ui/react";
 import { MastodonDisplayName } from "@/components";
 import { useDebounce } from "react-use";
 import { constants } from "@/library";
 import { LuSearch } from "react-icons/lu";
+
+import Image from "next/image";
+import logo from "../../public/images/logo.svg";
+import ma from "../../public/images/mastodon-academy.svg";
 
 const mastodonDotSocial = "mastodon.social";
 const { mastodonSearchMinimumQueryLength } = constants;
@@ -56,7 +62,28 @@ export default function AccountSearch() {
 		[query]
 	);
 
-	return (
+	return (<>
+                <Container centerContent paddingTop="100px" paddingBottom="50px">
+                    <NextLink href="/">
+                        <Flex alignItems="center" gap={2}>
+                            <Box height={8}>
+                                <Image
+                                    src={logo}
+                                    alt="Top Mastodon Posts logo"
+                                    style={{ height: "100%", width: "auto" }}
+                                />
+                            </Box>
+                            <Heading as="h1" size="xl">
+                                <Image
+                                    src={ma}
+                                    alt="Mastodon Academy"
+                                    style={{ height: "50px", width: "auto" }}
+                                />
+                            </Heading>
+                        </Flex>
+                    </NextLink>
+                </Container>
+
 		<Flex direction="column" gap={4} width="100%">
 			<form onSubmit={(event) => event.preventDefault()}>
 				<FormControl isInvalid={isQueryDebouncedTooShort}>
@@ -81,8 +108,9 @@ export default function AccountSearch() {
 			                        </HStack>
                                                 <RadioGroup>
                                                   <HStack direction='row'>
-                                                    <Radio value='basic'>Toots</Radio>
-                                                    <Radio value='enhanced'>Crimes</Radio>
+                                                    <Radio value='basic' defaultChecked={true}>Toots</Radio>
+                                                    <Radio value='enhanced' isDisabled>Crimes</Radio>
+                                                    <i>Crimes coming soon!</i>
                                                   </HStack>
                                                 </RadioGroup>
 			                    </VStack>
@@ -138,5 +166,5 @@ export default function AccountSearch() {
 				</Flex>
 			)}
 		</Flex>
-	);
+	</>);
 }
