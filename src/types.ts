@@ -36,3 +36,7 @@ export interface MastodonStatus {
              url: string;
         }>;
 }
+
+export interface CrimResponse {
+        response: string;
+}
