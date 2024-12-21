@@ -26,7 +26,7 @@ const TopPosts: NextPage = () => {
 	const isAccountNameSet = typeof accountName === "string";
 	const [, username, server] = isAccountNameSet ? accountName.split("@") : [];
 
-	const { account: account, error: accountError } = useMastodonAccount({ server, username });
+	const { account: account, httpserver: httpserver, error: accountError } = useMastodonAccount({ server, username });
 
 	const {
 		error: statusesError,
@@ -34,7 +34,7 @@ const TopPosts: NextPage = () => {
 		progress: statusesLoadingProgress,
 		topStatuses: statuses,
 	        topHashtags: hashtags
-	} = useMastodonTopStatuses({ server, username });
+	} = useMastodonTopStatuses({ server, httpserver, username });
 
 	const title = account
 		? [account.display_name, separator, appName].join(" ")
