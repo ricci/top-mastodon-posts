@@ -7,6 +7,7 @@ import {
 import parse from 'html-react-parser';
 import truncate from 'truncate-html';
 import { useCriminalizeTitle, useCriminalizeVenue } from "@/hooks";
+import TextTransition, { presets } from 'react-text-transition';
 
 const formatter = new Intl.NumberFormat();
 
