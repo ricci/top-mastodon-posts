@@ -21,13 +21,9 @@ export default function useWebfinger({
 	username: string;
 	server: string;
 }) {
-        let data = "https://" + server;
-	const { data: newData, error, isLoading } = useSwrImmutable(
+	const { data, error, isLoading } = useSwrImmutable(
 	     `${username}@${server}`, fetcher
 	);
-        if (newData) {
-            data = server;
-        }
 
 	return {
 		httpserver: data,

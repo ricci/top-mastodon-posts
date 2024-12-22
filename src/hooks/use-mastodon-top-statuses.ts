@@ -8,7 +8,7 @@ export default function useMastodonTopStatuses({
 }: {
 	server: string;
 	username: string;
-	httpserver: string;
+	httpserver: string | undefined;
 }) {
 	const { error, isLoading, progress, statuses } = useMastodonStatuses({
 		server,
