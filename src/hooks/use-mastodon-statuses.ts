@@ -8,11 +8,15 @@ const limit = 40;
 export default function useMastodonStatuses({
 	server,
 	username,
+        httpserver,
 }: {
 	server: string | undefined;
 	username: string | undefined;
+	httpserver: string | undefined;
 }) {
+        
 	const { account, error: accountError } = useMastodonAccount({
+	        httpserver,
 		server,
 		username,
 	});

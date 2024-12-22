@@ -2,14 +2,16 @@ import { useMastodonSearch } from "@/hooks";
 
 export default function useMastodonAccount({
 	server,
+        httpserver,
 	username,
 }: {
 	server: string | undefined;
+	httpserver: string | undefined;
 	username: string | undefined;
 }) {
 	let { data, error, isLoading } = useMastodonSearch({
 		query: `@${username}@${server}`,
-		server,
+		server: httpserver,
 		type: "accounts",
 	});
 
