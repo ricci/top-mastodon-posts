@@ -3,7 +3,7 @@ import useSwrImmutable from "swr/immutable";
 const fetcher = (accountName: string) => {
 
     const [username, server] = accountName.split("@");
-    const req = new Request(`https://${server}/.well-known/webfingers?resource=${username}%40${server}`);
+    const req = new Request(`https://${server}/.well-known/webfinger?resource=${username}%40${server}`);
     return fetch(req).then(
         r => {
             return "https://" + new URL(r.url).host
