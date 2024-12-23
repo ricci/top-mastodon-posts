@@ -15,7 +15,7 @@ export default function MastodonStatusRow({
     status: MastodonStatus;
 }) {
     return(
-        <Tr>
+        <Tr key={status.id}>
           <Td><Link href={status.url}>{parse(truncate(status.content,100))}</Link></Td>
           <Td textAlign="right">{formatter.format(status.reblogs_count)}</Td>
           <Td>{new Date(status.created_at).getFullYear()}</Td>
