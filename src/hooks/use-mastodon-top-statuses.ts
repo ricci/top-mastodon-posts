@@ -3,17 +3,17 @@ import { useMastodonStatuses } from "@/hooks";
 
 export default function useMastodonTopStatuses({
 	server,
-        httpserver,
 	username,
+        httpserver,
 }: {
 	server: string;
-	httpserver: string;
 	username: string;
+	httpserver: string | undefined;
 }) {
 	const { error, isLoading, progress, statuses } = useMastodonStatuses({
 		server,
-	        httpserver,
 		username,
+	        httpserver
 	});
 
 	let topStatuses: MastodonStatus[] | undefined = statuses;

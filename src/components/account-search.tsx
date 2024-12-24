@@ -32,7 +32,7 @@ import Image from "next/image";
 import logo from "../../public/images/logo.svg";
 import ma from "../../public/images/mastodon-academy.svg";
 
-const mastodonDotSocial = "mastodon.social";
+const mastodonDotSocial = "https://mastodon.social";
 const { mastodonSearchMinimumQueryLength } = constants;
 const exampleHandles = [
     "@albert@advanced.studies",

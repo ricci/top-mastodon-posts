@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useMastodonAccount, useMastodonTopStatuses } from "@/hooks";
+import { useMastodonAccount, useMastodonTopStatuses, useWebfinger } from "@/hooks";
 import {
 	Alert,
 	AlertDescription,
@@ -26,7 +26,9 @@ const TopPosts: NextPage = () => {
 	const isAccountNameSet = typeof accountName === "string";
 	const [, username, server] = isAccountNameSet ? accountName.split("@") : [];
 
-	const { account: account, httpserver: httpserver, error: accountError } = useMastodonAccount({ server, username });
+        const { httpserver } = useWebfinger({username, server});
+
+	const { account: account, error: accountError } = useMastodonAccount({ server, username, httpserver });
 
 	const {
 		error: statusesError,
@@ -34,7 +36,7 @@ const TopPosts: NextPage = () => {
 		progress: statusesLoadingProgress,
 		topStatuses: statuses,
 	        topHashtags: hashtags
-	} = useMastodonTopStatuses({ server, httpserver, username });
+	} = useMastodonTopStatuses({ server, username, httpserver });
 
 	const title = account
 		? [account.display_name, separator, appName].join(" ")

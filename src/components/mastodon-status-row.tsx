@@ -20,7 +20,7 @@ export default function MastodonStatusRow({
     const { data: crimTitle } = useCriminalizeTitle({ post });
     const { data: crimVenue } = useCriminalizeVenue({ post });
     return(
-        <Tr>
+        <Tr key={status.id}>
           <Td><Link href={status.url}>{
                 (crimTitle && crimVenue)?
                     crimTitle.response + " in " + crimVenue.response

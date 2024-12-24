@@ -2,14 +2,16 @@ import { useMastodonSearch } from "@/hooks";
 
 export default function useMastodonAccount({
 	server,
+        httpserver,
 	username,
 }: {
 	server: string | undefined;
+	httpserver: string | undefined;
 	username: string | undefined;
 }) {
 	let { data, error, isLoading } = useMastodonSearch({
 		query: `@${username}@${server}`,
-		server,
+		server: httpserver,
 		type: "accounts",
 	});
 
@@ -22,14 +24,5 @@ export default function useMastodonAccount({
         }
 
 
-        // Check to see if there is a different server that hosts the actual API
-        let httpserver: string = "";
-        fetch("https://{server}/.well-known/webfinger",{redirect: "follow"}).then((response) => {
-            if (response.redirected) {
-                httpserver = response.url;
-            } else {
-                httpserver = "https://{server}";
-            }
-        });
-	return { account: acct, error: error, httpserver: httpserver, isLoading };
+	return { account: acct, error: error, isLoading };
 }
