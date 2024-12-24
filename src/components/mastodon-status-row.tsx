@@ -12,13 +12,15 @@ import TextTransition, { presets } from 'react-text-transition';
 const formatter = new Intl.NumberFormat();
 
 export default function MastodonStatusRow({
-    status
+    status,
+    isLoading
 }: {
     status: MastodonStatus;
+    isLoading: boolean;
 }) {
     const post = status.content;
-    const { data: crimTitle } = useCriminalizeTitle({ post });
-    const { data: crimVenue } = useCriminalizeVenue({ post });
+    const { data: crimTitle } = useCriminalizeTitle({ post, wait: isLoading });
+    const { data: crimVenue } = useCriminalizeVenue({ post, wait: isLoading });
     return(
         <Tr key={status.id}>
           <Td><Link href={status.url}>{

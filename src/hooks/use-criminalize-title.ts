@@ -5,20 +5,30 @@ import useSwrImmutable from "swr/immutable";
 const fetcher = post => fetch(criminalizeURL, { method: "PUT", body: JSON.stringify({ type: 'title', message: post }), headers: { "Content-Type": "application/json" } }).then(r => r.json())
 
 export default function useCriminalizeTitle({
-	post
+	post,
+        wait
 }: {
 	post: string;
+	wait: boolean;
 }) {
-	const { data, error, isLoading } = useSwrImmutable<{
-		resp: CrimResponse;
-		error?: string;
-	}>(
-	     post, fetcher
-	);
+        if (!wait) {
+            const { data, error, isLoading } = useSwrImmutable<{
+                    resp: CrimResponse;
+                    error?: string;
+            }>(
+                 post, fetcher
+            );
 
-	return {
-		data,
-		error,
-		isLoading,
-	};
+            return {
+                    data,
+                    error,
+                    isLoading,
+            };
+        } else {
+            return {
+                    data: undefined,
+                    error: undefined,
+                    isLoading: false
+            };
+        }
 }

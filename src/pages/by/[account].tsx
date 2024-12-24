@@ -82,7 +82,7 @@ const TopPosts: NextPage = () => {
 
 				</Flex>
 
-                                {statuses && <MastodonStatusTable statuses={statuses} />}
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} />}
 			</Container>
 		</>
 	);
