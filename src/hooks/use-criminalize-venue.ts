@@ -2,7 +2,7 @@ import { criminalizeURL } from "@/library/constants";
 import { CrimResponse } from "@/types";
 import useSwrImmutable from "swr/immutable";
 
-const fetcher = post => fetch(criminalizeURL, { method: "PUT", body: JSON.stringify({ type: 'venue', message: post}), headers: { "Content-Type": "application/json" } }).then(r => r.json())
+const fetcher = post => fetch(criminalizeURL, { method: "PUT", body: JSON.stringify({ type: 'venue', message: post.replace("venue:","")}), headers: { "Content-Type": "application/json" } }).then(r => r.json())
 
 export default function useCriminalizeVenue({
 	post,
@@ -16,7 +16,7 @@ export default function useCriminalizeVenue({
                     resp: CrimResponse;
                     error?: string;
             }>(
-                 "venue " +post, fetcher
+                 "venue:" +post, fetcher
             );
 
             return {
