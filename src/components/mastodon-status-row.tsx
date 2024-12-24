@@ -2,7 +2,9 @@ import { MastodonStatus } from "@/types";
 import {
     Tr,
     Td,
-    Link
+    Link,
+    VStack,
+    Text
 } from "@chakra-ui/react";
 import parse from 'html-react-parser';
 import truncate from 'truncate-html';
@@ -27,12 +29,17 @@ export default function MastodonStatusRow({
                 (!crimTitle || !crimVenue)?
                     <Link href={status.url}>{ parse(truncate(status.content,100)) }</Link>:
 
+                    <VStack alignItems="left">
                     <TextTransition springConfig={presets.wobbly}><Link href={status.url}>
-                        { crimTitle.response + " in " + crimVenue.response }
+                        { crimTitle.response }
                     </Link></TextTransition>
+                    <Text textStyle="sm" color="gray">
+                        { crimVenue.response }
+                    </Text>
+                    </VStack>
               }
           </Td>
-          <Td textAlign="right">{formatter.format(status.reblogs_count)}</Td>
+          <Td alignItems="left">{formatter.format(status.reblogs_count)}</Td>
           <Td>{new Date(status.created_at).getFullYear()}</Td>
         </Tr>
     );
