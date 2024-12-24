@@ -23,11 +23,15 @@ export default function MastodonStatusRow({
     const { data: crimVenue } = useCriminalizeVenue({ post, wait: isLoading });
     return(
         <Tr key={status.id}>
-          <Td><Link href={status.url}>{
-                (crimTitle && crimVenue)?
-                    crimTitle.response + " in " + crimVenue.response
-                : parse(truncate(status.content,100))}
-               </Link></Td>
+          <Td>{
+                (!crimTitle || !crimVenue)?
+                    <Link href={status.url}>{ parse(truncate(status.content,100)) }</Link>:
+
+                    <TextTransition springConfig={presets.wobbly}><Link href={status.url}>
+                        { crimTitle.response + " in " + crimVenue.response }
+                    </Link></TextTransition>
+              }
+          </Td>
           <Td textAlign="right">{formatter.format(status.reblogs_count)}</Td>
           <Td>{new Date(status.created_at).getFullYear()}</Td>
         </Tr>
