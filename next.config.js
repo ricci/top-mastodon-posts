@@ -4,6 +4,14 @@ const nextConfig = {
         output: 'export',
         images: {
             unoptimized: true,
+        },
+        async rewrites() {
+            return [
+                {
+                    source: '/academic-crimes/:who',
+                    destination: '/by/:who'
+                }
+            ];
         }
 };
 
