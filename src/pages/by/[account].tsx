@@ -22,6 +22,7 @@ import { appName, separator } from "@/library";
 
 const TopPosts: NextPage = () => {
 	const router = useRouter();
+        const crimeMode = router.asPath.startsWith("/academic-crimes");
 	const accountName = router.query.account;
 	const isAccountNameSet = typeof accountName === "string";
 	const [, username, server] = isAccountNameSet ? accountName.split("@") : [];
