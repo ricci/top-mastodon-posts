@@ -69,6 +69,24 @@ const HowItWorks: NextPage = () => (
 				<Spacer />
 
 				<Heading as="h3" size="lg">
+					Crimes / LLM 
+				</Heading>
+
+				<Text>
+		                        The "Crimes" feature uses an LLM running on a GPU in my 
+                                        closet. Source code, including details of the model used
+                                        (currently llama 3.2) and
+                                        the system prompts, are at{" "}
+					<InlineLink href="https://github.com/ricci/criminalize">
+						https://github.com/ricci/criminalize
+					</InlineLink>.
+		                        I have solar panels on my roof, if that helps you feel
+		                        any better about the environmental impact.
+				</Text>
+
+				<Spacer />
+
+				<Heading as="h3" size="lg">
 					Source code
 				</Heading>
 
