@@ -50,6 +50,7 @@ const exampleHandles = [
 
 export default function AccountSearch() {
 	const [query, setQuery] = useState<string | undefined>(undefined);
+	const [nextPage, setNextPage] = useState<string>("by");
 	const [queryDebounced, setQueryDebounced] = useState<string | undefined>(
 		undefined
 	);
@@ -113,11 +114,12 @@ export default function AccountSearch() {
                                                   <LuSearch />
                                                 </IconButton>
 			                        </HStack>
-                                                <RadioGroup>
+                                                <RadioGroup aria-labelledby="radio-buttons-group-label"
+                                                    defaultValue="by"
+                                                    name="radio-buttons-group">
                                                   <HStack direction='row'>
-                                                    <Radio value='basic' defaultChecked={true}>Toots</Radio>
-                                                    <Radio value='enhanced' isDisabled>Crimes</Radio>
-                                                    <i>Crimes coming soon!</i>
+                                                    <Radio value='by' onChange={() => setNextPage("by")}>Toots</Radio>
+                                                    <Radio value='academic-crimes' onChange={() => setNextPage("academic-crimes")}>Academic Crimes</Radio>
                                                   </HStack>
                                                 </RadioGroup>
 			                    </VStack>
@@ -140,7 +142,7 @@ export default function AccountSearch() {
 
 						return (
 							<li key={account.id}>
-								<Link href={`/by/${accountName}`}>
+								<Link href={`/${nextPage}/${accountName}`}>
 									<Card>
 										<CardBody>
 											<Flex gap={2} alignItems="center">
