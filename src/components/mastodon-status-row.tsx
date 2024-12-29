@@ -32,9 +32,9 @@ export default function MastodonStatusRow({
                     <Link href={status.url}>{ parse(truncate(status.content,100)) }</Link>:
 
                     <VStack alignItems="left">
-                    <TextTransition springConfig={presets.wobbly}><Link href={status.url}>
+                    <Link href={status.url}>
                         { crimTitle.response }
-                    </Link></TextTransition>
+                    </Link>
                     <Text textStyle="sm" color="gray">
                         { crimVenue.response }
                     </Text>
