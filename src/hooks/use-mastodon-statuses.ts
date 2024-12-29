@@ -61,7 +61,7 @@ export default function useMastodonStatuses({
 		}
 
 		getStatuses();
-	}, [account, server]);
+	}, [account, server, httpserver]);
 
 	const [progress, setProgress] = useState<number | undefined>(undefined);
 	useEffect(() => {
