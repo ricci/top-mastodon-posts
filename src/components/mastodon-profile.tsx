@@ -7,14 +7,18 @@ import {
 } from "@chakra-ui/react";
 import parse from 'html-react-parser';
 import { MastodonDisplayName, MastodonProfileImage, MastodonFollowButton, MastodonHashtag } from "@/components";
+import { useCriminalizeBio } from "@/hooks";
 
 export default function MastodonProfile({
     account,
-    tags
+    tags,
+    crimeMode
 }: {
     account: MastodonAccount;
     tags: Array<MastodonTag> | undefined;
+    crimeMode: boolean;
 }) {
+    const { data: crimBio } = useCriminalizeBio({ bio: account.note, enable: crimeMode });
     return(
         <HStack>
             <MastodonProfileImage account={account} />
@@ -24,7 +28,9 @@ export default function MastodonProfile({
                     <Box display = "flex"><MastodonFollowButton account = {account} /></Box>
                 </Heading>
 
-                <Box>{parse(account.note)}</Box>
+                <Box>{
+                    crimBio?parse(crimBio.response):parse(account.note)
+                }</Box>
                 {account.fields.filter((x) => x.verified_at).map((x) => <Text key={x.name}>Verified {x.name} at {parse(x.value)}</Text>)}
                 <HStack>{tags && tags.map(t => <MastodonHashtag key={t.name} tag={t}/>)}</HStack>
             </VStack>
