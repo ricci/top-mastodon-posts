@@ -13,10 +13,7 @@ export default function useCriminalizeVenue({
 	wait: boolean;
 	enable: boolean;
 }) {
-        const { data, error, isLoading } = useSwrImmutable<{
-                resp: CrimResponse;
-                error?: string;
-        }>(
+        const { data, error, isLoading } = useSwrImmutable(
              (enable&&!wait)?("venue:" +post):undefined, fetcher
         );
 

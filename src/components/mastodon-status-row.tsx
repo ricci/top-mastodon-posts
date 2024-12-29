@@ -29,14 +29,14 @@ export default function MastodonStatusRow({
         <Tr key={status.id}>
           <Td>{
                 (!crimTitle || !crimVenue)?
-                    <Link href={status.url}>{ parse(truncate(status.content,100)) }</Link>:
+                    <Link target="_blank" href={status.url}>{ parse(truncate(status.content,100)) }</Link>:
 
                     <VStack alignItems="left">
-                    <Link href={status.url}>
-                        { crimTitle.resp.response }
+                    <Link target="_blank"  href={status.url}>
+                        { crimTitle.response }
                     </Link>
                     <Text textStyle="sm" color="gray">
-                        { crimVenue.resp.response }
+                        { crimVenue.response }
                     </Text>
                     </VStack>
               }
