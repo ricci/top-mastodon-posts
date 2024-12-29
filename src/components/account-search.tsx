@@ -19,6 +19,7 @@ import {
 	Spinner,
         Radio, RadioGroup,
 	Text,
+        Tooltip,
         HStack,
         VStack,
         Container,
@@ -26,7 +27,7 @@ import {
 import { MastodonDisplayName } from "@/components";
 import { useDebounce } from "react-use";
 import { constants } from "@/library";
-import { LuSearch } from "react-icons/lu";
+import { LuSearch, LuCircleHelp } from "react-icons/lu";
 
 import Image from "next/image";
 import logo from "../../public/images/logo.svg";
@@ -120,6 +121,7 @@ export default function AccountSearch() {
                                                   <HStack direction='row'>
                                                     <Radio value='by' onChange={() => setNextPage("by")}>Toots</Radio>
                                                     <Radio value='academic-crimes' onChange={() => setNextPage("academic-crimes")}>Academic Crimes</Radio>
+                                                    <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details"><Text><LuCircleHelp /></Text></Tooltip>
                                                   </HStack>
                                                 </RadioGroup>
 			                    </VStack>
