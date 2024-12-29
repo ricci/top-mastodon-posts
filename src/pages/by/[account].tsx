@@ -55,7 +55,7 @@ const TopPosts: NextPage = () => {
 
 			<Container maxWidth = "container.xl">
 		                <Flex direction="row" marginBottom={10}>
-                                    <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} crimeMode={crimeMode} />}</Box>
+                                    <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
                                     <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
 	                        </Flex>
 

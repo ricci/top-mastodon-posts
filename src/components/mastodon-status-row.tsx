@@ -41,7 +41,7 @@ export default function MastodonStatusRow({
                     </VStack>
               }
           </Td>
-          <Td alignItems="right">{formatter.format(status.reblogs_count)}</Td>
+          <Td alignItems="left">{formatter.format(status.reblogs_count)}</Td>
           <Td>{new Date(status.created_at).getFullYear()}</Td>
         </Tr>
     );
