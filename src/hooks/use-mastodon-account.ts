@@ -2,16 +2,27 @@ import { useMastodonSearch } from "@/hooks";
 
 export default function useMastodonAccount({
 	server,
+        httpserver,
 	username,
 }: {
 	server: string | undefined;
+	httpserver: string | undefined;
 	username: string | undefined;
 }) {
-	const { data, error, isLoading } = useMastodonSearch({
+	let { data, error, isLoading } = useMastodonSearch({
 		query: `@${username}@${server}`,
-		server,
+		server: httpserver,
 		type: "accounts",
 	});
 
-	return { account: data?.accounts?.[0], error, isLoading };
+        // Crude #nobot check
+        let acct = data?.accounts?.[0];
+        const regex = new RegExp('nobot');
+        if (acct && regex.test(acct.note)) {
+            error = { message: "This account has requested #nobot" };
+            acct = undefined;
+        }
+
+
+	return { account: acct, error: error, isLoading };
 }

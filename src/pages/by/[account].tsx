@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useMastodonAccount, useMastodonTopStatuses } from "@/hooks";
+import { useMastodonAccount, useMastodonTopStatuses, useWebfinger } from "@/hooks";
 import {
 	Alert,
 	AlertDescription,
@@ -9,29 +9,35 @@ import {
 	Card,
 	CardBody,
 	Container,
+        Box,
 	Flex,
 	Heading,
 	Progress,
 	Text,
+        HStack
 } from "@chakra-ui/react";
-import { MastodonDisplayName, MastodonStatusEmbed } from "@/components";
+import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile, MastodonHashtag, IndexBox, MastodonStatusTable } from "@/components";
 import Head from "next/head";
 import { appName, separator } from "@/library";
 
 const TopPosts: NextPage = () => {
 	const router = useRouter();
+        const crimeMode = router.asPath.startsWith("/academic-crimes");
 	const accountName = router.query.account;
 	const isAccountNameSet = typeof accountName === "string";
 	const [, username, server] = isAccountNameSet ? accountName.split("@") : [];
 
-	const { account } = useMastodonAccount({ server, username });
+        const { httpserver } = useWebfinger({username, server});
+
+	const { account: account, error: accountError } = useMastodonAccount({ server, username, httpserver });
 
 	const {
 		error: statusesError,
 		isLoading: isLoadingStatuses,
 		progress: statusesLoadingProgress,
 		topStatuses: statuses,
-	} = useMastodonTopStatuses({ server, username });
+	        topHashtags: hashtags
+	} = useMastodonTopStatuses({ server, username, httpserver });
 
 	const title = account
 		? [account.display_name, separator, appName].join(" ")
@@ -43,18 +49,17 @@ const TopPosts: NextPage = () => {
 				<title>{title}</title>
 				<meta
 					name="description"
-					content={`Most-favorited Mastodon posts by ${accountName}`}
+					content={`${accountName} - Mastodon Academy`}
 				/>
 			</Head>
 
-			<Container>
-				<Flex direction="column" gap={8}>
-					<Heading as="h2" size="lg">
-						Most-favorited Mastodon posts by{" "}
-						{account ? <MastodonDisplayName account={account} /> : accountName}
-						{account ? `(${accountName})` : null}
-					</Heading>
+			<Container maxWidth = "container.xl">
+		                <Flex direction="row" marginBottom={10}>
+                                    <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
+                                    <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
+	                        </Flex>
 
+				<Flex direction="column" gap={8}>
 					{isLoadingStatuses && (
 						<Flex gap={4} alignItems="center">
 							<Text>Loading</Text>
@@ -76,33 +81,9 @@ const TopPosts: NextPage = () => {
 						</Alert>
 					)}
 
-					<Flex
-						as="ol"
-						aria-busy={isLoadingStatuses}
-						direction="column"
-						gap={8}
-					>
-						{!isLoadingStatuses &&
-							statuses &&
-							statuses.map((status) => (
-								<Card
-									as="li"
-									key={status.id}
-									backgroundColor="#313543"
-									size="sm"
-								>
-									<CardBody display="flex">
-										<MastodonStatusEmbed
-											id={status.id}
-											server={server}
-											username={username}
-											style={{ width: "100%" }}
-										/>
-									</CardBody>
-								</Card>
-							))}
-					</Flex>
 				</Flex>
+
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} />}
 			</Container>
 		</>
 	);

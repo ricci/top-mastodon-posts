@@ -3,7 +3,7 @@ import Head from "next/head";
 import { Container, Text, VStack } from "@chakra-ui/react";
 import { apostrophe, appName } from "@/library";
 
-const description = `See a Mastodon account${apostrophe}s most-favorited posts`;
+const description = `Stand on the shoulders of pachyderms`;
 
 export default function Home() {
 	return (
@@ -15,9 +15,9 @@ export default function Home() {
 			</Head>
 
 			<Container>
-				<VStack align="flex-start" gap={4}>
-					<Text>{description}</Text>
+				<VStack align="center" gap={16}>
 					<AccountSearch />
+					<Text as="b" color="green">{description}</Text>
 				</VStack>
 			</Container>
 		</>

@@ -16,7 +16,7 @@ export default function useSearchMastodon({
 		error?: string;
 	}>(
 		shouldSearch
-			? `https://${server}/api/v2/search?q=${query}&type=${type}`
+			? `${server}/api/v2/search?q=${query}&type=${type}`
 			: null
 	);
 

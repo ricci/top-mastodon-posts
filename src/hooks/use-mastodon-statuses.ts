@@ -8,11 +8,15 @@ const limit = 40;
 export default function useMastodonStatuses({
 	server,
 	username,
+        httpserver,
 }: {
 	server: string | undefined;
 	username: string | undefined;
+	httpserver: string | undefined;
 }) {
+        
 	const { account, error: accountError } = useMastodonAccount({
+	        httpserver,
 		server,
 		username,
 	});
@@ -34,13 +38,14 @@ export default function useMastodonStatuses({
 			while (shouldGetMore) {
 				const searchParams: SearchParamsOption = {
 					exclude_reblogs: 1,
+		                        exclude_replies: 1,
 					limit,
 				};
 
 				if (maxId) searchParams.max_id = maxId;
 
 				moreStatuses = await ky(
-					`https://${server}/api/v1/accounts/${account.id}/statuses`,
+					`${httpserver}/api/v1/accounts/${account.id}/statuses`,
 					{
 						searchParams,
 					}

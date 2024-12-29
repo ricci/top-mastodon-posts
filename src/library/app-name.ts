@@ -1,1 +1,1 @@
-export default "Top Mastodon Posts";
+export default "Mastodon.Academy";

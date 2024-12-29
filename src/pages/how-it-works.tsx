@@ -16,12 +16,17 @@ const HowItWorks: NextPage = () => (
 				</Heading>
 
 				<Text>
+					This application runs entirely in your browser, which makes requests
+		                        to the Mastodon API on the server of the account you are viewing.
+				</Text>
+
+				<Text>
 					When you view an account{apostrophe}s top posts at{" "}
 					<Code>{"/by/@{username}/{server}"}</Code>, your browser makes requests
 					to <Code>{"{server}"}</Code>
 					{apostrophe}s public API to get all public posts by that account,
 					sorts them by <Code>favourite_count</Code> descending, then displays
-					the top 20 most-favorited posts.
+					the most-favorited posts.
 				</Text>
 
 				<Text>
@@ -64,11 +69,33 @@ const HowItWorks: NextPage = () => (
 				<Spacer />
 
 				<Heading as="h3" size="lg">
+					Crimes / LLM 
+				</Heading>
+
+				<Text>
+		                        The "Crimes" feature uses an LLM running on a GPU in my 
+                                        closet. Source code, including details of the model used
+                                        (currently llama 3.2) and
+                                        the system prompts, are at{" "}
+					<InlineLink href="https://github.com/ricci/criminalize">
+						https://github.com/ricci/criminalize
+					</InlineLink>.
+		                        I have solar panels on my roof, if that helps you feel
+		                        any better about the environmental impact.
+				</Text>
+
+				<Spacer />
+
+				<Heading as="h3" size="lg">
 					Source code
 				</Heading>
 
 				<Text>
 					Source code is available on GitHub at{" "}
+					<InlineLink href="https://github.com/ricci/top-mastodon-posts">
+						ricci / top-mastodon-posts
+					</InlineLink>{". "}
+					This is a fork of{" "}
 					<InlineLink href="https://github.com/patrik-csak/top-mastodon-posts">
 						patrik-csak / top-mastodon-posts
 					</InlineLink>{" "}

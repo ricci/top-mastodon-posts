@@ -11,38 +11,21 @@ import {
 import NextLink from "next/link";
 import { appName, separator } from "@/library";
 import { InlineLink } from "@/components";
+
 import Image from "next/image";
-import logo from "../../public/images/logo.svg";
+import ma from "../../public/images/mastodon-academy.svg";
 
 export default function Layout({ children }: { children: ReactElement }) {
 	const alternateBackgroundColor = useColorModeValue("gray.100", "gray.700");
 
 	return (
 		<Flex direction="column" gap={4} height="100%">
-			<Box
-				backgroundColor={alternateBackgroundColor}
-				boxShadow="base"
-				as="header"
-				paddingY={4}
-			>
-				<Container>
-					<NextLink href="/">
-						<Flex alignItems="center" gap={2}>
-							<Box height={8}>
-								<Image
-									src={logo}
-									alt="Top Mastodon Posts logo"
-									style={{ height: "100%", width: "auto" }}
-								/>
-							</Box>
-							<Heading as="h1" size="lg">
-								{appName}
-							</Heading>
-						</Flex>
-					</NextLink>
-				</Container>
-			</Box>
-
+                        <Box
+                            as="header"
+                            paddingBottom={50}
+                        >
+                        <NextLink href="/"><Image src={ma} alt="Mastodon Academy" height={30} style={{ padding: "15px" }}/></NextLink>
+                        </Box>
 			<Box as="main" flexGrow={1} paddingY={4}>
 				{children}
 			</Box>
@@ -59,6 +42,10 @@ export default function Layout({ children }: { children: ReactElement }) {
 							By{" "}
 							<InlineLink href="https://www.patrikcsak.com/">
 								Patrik Csak
+							</InlineLink>
+                                                        {" "}and{" "}
+							<InlineLink href="https://ricci.io/">
+								Robert Ricci
 							</InlineLink>
 						</Text>
 

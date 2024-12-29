@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useMastodonSearch } from "@/hooks";
 import Link from "next/link";
+import NextLink from "next/link";
 import {
 	Avatar,
+        Box,
 	Card,
 	CardBody,
 	Flex,
@@ -11,20 +13,45 @@ import {
 	FormLabel,
 	Heading,
 	Input,
+        IconButton,
 	InputGroup,
 	InputRightElement,
 	Spinner,
+        Radio, RadioGroup,
 	Text,
+        Tooltip,
+        HStack,
+        VStack,
+        Container,
 } from "@chakra-ui/react";
 import { MastodonDisplayName } from "@/components";
 import { useDebounce } from "react-use";
 import { constants } from "@/library";
+import { LuSearch, LuCircleHelp } from "react-icons/lu";
 
-const mastodonDotSocial = "mastodon.social";
+import Image from "next/image";
+import logo from "../../public/images/logo.svg";
+import ma from "../../public/images/mastodon-academy.svg";
+
+const mastodonDotSocial = "https://mastodon.social";
 const { mastodonSearchMinimumQueryLength } = constants;
+const exampleHandles = [
+    "@albert@advanced.studies",
+    "@idawgg@apple.orchard",
+    "@richard@bongo.rip",
+    "@sagan@apple.pie.from.scratch",
+    "@aturing@mastodon.gay",
+    "@ramanujan@mastodon.prime",
+    "@ada@lovelace.place",
+    "@gödel@incomple",
+    "@marie@curie.rad",
+    "@grace@hop.town"
+
+];
 
 export default function AccountSearch() {
 	const [query, setQuery] = useState<string | undefined>(undefined);
+	const [nextPage, setNextPage] = useState<string>("by");
 	const [queryDebounced, setQueryDebounced] = useState<string | undefined>(
 		undefined
 	);
@@ -44,17 +71,39 @@ export default function AccountSearch() {
 		[query]
 	);
 
-	return (
+	return (<>
+                <Container centerContent paddingTop="100px" paddingBottom="50px">
+                    <NextLink href="/">
+                        <Flex alignItems="center" gap={2}>
+                            <Box height={8}>
+                                <Image
+                                    src={logo}
+                                    alt="Top Mastodon Posts logo"
+                                    style={{ height: "100%", width: "auto" }}
+                                />
+                            </Box>
+                            <Heading as="h1" size="xl">
+                                <Image
+                                    src={ma}
+                                    alt="Mastodon Academy"
+                                    style={{ height: "50px", width: "auto" }}
+                                />
+                            </Heading>
+                        </Flex>
+                    </NextLink>
+                </Container>
+
 		<Flex direction="column" gap={4} width="100%">
 			<form onSubmit={(event) => event.preventDefault()}>
 				<FormControl isInvalid={isQueryDebouncedTooShort}>
-					<FormLabel>Account</FormLabel>
 					<InputGroup>
+			                    <VStack width="100%">
+			                      <HStack width="100%" gap={0}>
 						<Input
 							onInput={(event) =>
 								setQuery((event.target as HTMLInputElement).value)
 							}
-							placeholder="e.g. @kottke@botsin.space"
+							placeholder = {"e.g. " + exampleHandles[Math.floor(Math.random() * exampleHandles.length)]}
 							type="search"
 						/>
 						{isLoading && (
@@ -62,6 +111,20 @@ export default function AccountSearch() {
 								<Spinner size="sm" />
 							</InputRightElement>
 						)}
+                                                <IconButton aria-label="Search for user" colorScheme="blue">
+                                                  <LuSearch />
+                                                </IconButton>
+			                        </HStack>
+                                                <RadioGroup aria-labelledby="radio-buttons-group-label"
+                                                    defaultValue="by"
+                                                    name="radio-buttons-group">
+                                                  <HStack direction='row'>
+                                                    <Radio value='by' onChange={() => setNextPage("by")}>Toots</Radio>
+                                                    <Radio value='academic-crimes' onChange={() => setNextPage("academic-crimes")}>Academic Crimes</Radio>
+                                                    <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details"><Text><LuCircleHelp /></Text></Tooltip>
+                                                  </HStack>
+                                                </RadioGroup>
+			                    </VStack>
 					</InputGroup>
 					{isQueryDebouncedTooShort && (
 						<FormErrorMessage>
@@ -81,7 +144,7 @@ export default function AccountSearch() {
 
 						return (
 							<li key={account.id}>
-								<Link href={`/by/${accountName}`}>
+								<Link href={`/${nextPage}/${accountName}`}>
 									<Card>
 										<CardBody>
 											<Flex gap={2} alignItems="center">
@@ -114,5 +177,5 @@ export default function AccountSearch() {
 				</Flex>
 			)}
 		</Flex>
-	);
+	</>);
 }
