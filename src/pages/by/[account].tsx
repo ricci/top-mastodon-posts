@@ -83,7 +83,7 @@ const TopPosts: NextPage = () => {
 
 				</Flex>
 
-                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} />}
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} />}
 			</Container>
 		</>
 	);

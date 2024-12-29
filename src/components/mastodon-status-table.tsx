@@ -10,10 +10,12 @@ import { MastodonStatusRow } from "@/components";
 
 export default function MastodonStatusTable({
     statuses,
-    isLoading
+    isLoading,
+    crimeMode
 }: {
     statuses: Array<MastodonStatus> | undefined;
     isLoading: boolean;
+    crimeMode: boolean;
 }) {
     return(
         <Table>
@@ -25,7 +27,7 @@ export default function MastodonStatusTable({
                 </Tr>
             </Thead>
             <Tbody>
-                {statuses && statuses.sort((a,b) => b.reblogs_count - a.reblogs_count).slice(0,100).map(x => <MastodonStatusRow key={x.id} status={x} isLoading={isLoading}/>)}
+                {statuses && statuses.sort((a,b) => b.reblogs_count - a.reblogs_count).slice(0,100).map(x => <MastodonStatusRow key={x.id} status={x} isLoading={isLoading} crimeMode={crimeMode}/>)}
             </Tbody>
         </Table>
     );

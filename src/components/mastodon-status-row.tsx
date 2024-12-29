@@ -15,14 +15,16 @@ const formatter = new Intl.NumberFormat();
 
 export default function MastodonStatusRow({
     status,
-    isLoading
+    isLoading,
+    crimeMode
 }: {
     status: MastodonStatus;
     isLoading: boolean;
+    crimeMode: boolean;
 }) {
     const post = status.content;
-    const { data: crimTitle } = useCriminalizeTitle({ post, wait: isLoading });
-    const { data: crimVenue } = useCriminalizeVenue({ post, wait: isLoading });
+    const { data: crimTitle } = crimeMode? useCriminalizeTitle({ post, wait: isLoading }) : {data: undefined};
+    const { data: crimVenue } = crimeMode? useCriminalizeVenue({ post, wait: isLoading }) : {data: undefined};
     return(
         <Tr key={status.id}>
           <Td>{
