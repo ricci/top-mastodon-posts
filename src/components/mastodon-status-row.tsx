@@ -22,7 +22,7 @@ export default function MastodonStatusRow({
     isLoading: boolean;
     crimeMode: boolean;
 }) {
-    const post = status.content;
+    const post: string = status.content;
     const { data: crimTitle } = useCriminalizeTitle({ post, wait: isLoading, enable: crimeMode });
     const { data: crimVenue } = useCriminalizeVenue({ post, wait: isLoading, enable: crimeMode });
     return(
@@ -33,10 +33,10 @@ export default function MastodonStatusRow({
 
                     <VStack alignItems="left">
                     <Link href={status.url}>
-                        { crimTitle.response }
+                        { crimTitle.resp.response }
                     </Link>
                     <Text textStyle="sm" color="gray">
-                        { crimVenue.response }
+                        { crimVenue.resp.response }
                     </Text>
                     </VStack>
               }
