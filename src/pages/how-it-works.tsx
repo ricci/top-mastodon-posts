@@ -73,7 +73,7 @@ const HowItWorks: NextPage = () => (
 				</Heading>
 
 				<Text>
-		                        The "Crimes" feature uses an LLM running on a GPU in my 
+		                        The &quot;Crimes&quot; feature uses an LLM running on a GPU in my 
                                         closet. Source code, including details of the model used
                                         (currently llama 3.2) and
                                         the system prompts, are at{" "}
