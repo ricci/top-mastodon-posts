@@ -23,8 +23,8 @@ export default function MastodonStatusRow({
     crimeMode: boolean;
 }) {
     const post = status.content;
-    const { data: crimTitle } = crimeMode? useCriminalizeTitle({ post, wait: isLoading }) : {data: undefined};
-    const { data: crimVenue } = crimeMode? useCriminalizeVenue({ post, wait: isLoading }) : {data: undefined};
+    const { data: crimTitle } = useCriminalizeTitle({ post, wait: isLoading, enable: crimeMode });
+    const { data: crimVenue } = useCriminalizeVenue({ post, wait: isLoading, enable: crimeMode });
     return(
         <Tr key={status.id}>
           <Td>{

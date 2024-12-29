@@ -6,29 +6,23 @@ const fetcher = post => fetch(criminalizeURL, { method: "PUT", body: JSON.string
 
 export default function useCriminalizeTitle({
 	post,
-        wait
+        wait,
+        enable
 }: {
 	post: string;
 	wait: boolean;
+	enable: boolean;
 }) {
-        if (!wait) {
-            const { data, error, isLoading } = useSwrImmutable<{
-                    resp: CrimResponse;
-                    error?: string;
-            }>(
-                 post, fetcher
-            );
+        const { data, error, isLoading } = useSwrImmutable<{
+                resp: CrimResponse;
+                error?: string;
+        }>(
+             (enable&&!wait)?post:undefined, fetcher
+        );
 
-            return {
-                    data,
-                    error,
-                    isLoading,
-            };
-        } else {
-            return {
-                    data: undefined,
-                    error: undefined,
-                    isLoading: false
-            };
-        }
+        return {
+                data,
+                error,
+                isLoading,
+        };
 }
