@@ -34,6 +34,7 @@ import logo from "../../public/images/logo.svg";
 import ma from "../../public/images/mastodon-academy.svg";
 
 const mastodonDotSocial = "https://mastodon.social";
+const mastodonDotSocialInstance = "mastodon.social";
 const { mastodonSearchMinimumQueryLength } = constants;
 const exampleHandles = [
     "@albert@advanced.studies",
@@ -138,7 +139,7 @@ export default function AccountSearch() {
 				<Flex as="ol" direction="column" gap={4} listStyleType="none">
 					{data.accounts.map((account) => {
 						let [username, accountServer] = account.acct.split("@");
-						accountServer = accountServer ?? mastodonDotSocial;
+						accountServer = accountServer ?? mastodonDotSocialInstance;
 
 						const accountName = `@${username}@${accountServer}`;
 
