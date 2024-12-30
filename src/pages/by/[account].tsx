@@ -9,6 +9,7 @@ import {
 	AlertTitle,
         Box,
 	Container,
+        HStack,
 	Flex,
         FormControl,
         FormLabel,
@@ -59,6 +60,16 @@ const TopPosts: NextPage = () => {
             }
         }
 
+        const crimesSwitch = 
+		                <FormControl display='inline-block' width='minW' alignItems='center' paddingLeft={5}>
+	                          <HStack gap={0}>
+                                  <FormLabel htmlFor='crime-mode' mb='0'>
+                                      <LuVenetianMask />
+                                  </FormLabel>
+                                  <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} size='sm' />
+	                          </HStack>
+                                </FormControl>
+
 	return (
 		<>
 			<Head>
@@ -70,12 +81,6 @@ const TopPosts: NextPage = () => {
 			</Head>
 
 			<Container maxWidth = "container.xl">
-		                <FormControl display='flex' alignItems='center'>
-                                  <FormLabel htmlFor='crime-mode' mb='0'>
-                                      <LuVenetianMask />
-                                  </FormLabel>
-                                  <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} />
-                                </FormControl>
 		                <Flex direction="row" marginBottom={10}>
                                     <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
                                     <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
@@ -105,7 +110,7 @@ const TopPosts: NextPage = () => {
 
 				</Flex>
 
-                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} />}
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={crimesSwitch} />}
 			</Container>
 		</>
 	);

@@ -1,6 +1,7 @@
 import { MastodonStatus } from "@/types";
 import {
     Table,
+    Text,
     Thead,
     Tbody,
     Tr,
@@ -11,17 +12,19 @@ import { MastodonStatusRow } from "@/components";
 export default function MastodonStatusTable({
     statuses,
     isLoading,
-    crimeMode
+    crimeMode,
+    extra
 }: {
     statuses: Array<MastodonStatus> | undefined;
     isLoading: boolean;
     crimeMode: boolean;
+    extra: any;
 }) {
     return(
         <Table>
             <Thead>
                 <Tr>
-                  <Td>Title</Td>
+                  <Td><Text>Title {extra}</Text></Td>
                   <Td>Citations</Td>
                   <Td>Year</Td>
                 </Tr>
