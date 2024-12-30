@@ -1,5 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
+import { useState } from "react";
 import { useMastodonAccount, useMastodonTopStatuses, useWebfinger } from "@/hooks";
 import {
 	Alert,
@@ -20,9 +21,10 @@ import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile, MastodonHash
 import Head from "next/head";
 import { appName, separator } from "@/library";
 
+
 const TopPosts: NextPage = () => {
 	const router = useRouter();
-        const crimeMode = router.asPath.startsWith("/academic-crimes");
+        const [crimeMode, setCrimeMode] = useState(false);
 	const accountName = router.query.account;
 	const isAccountNameSet = typeof accountName === "string";
 	const [, username, server] = isAccountNameSet ? accountName.split("@") : [];
@@ -42,6 +44,11 @@ const TopPosts: NextPage = () => {
 	const title = account
 		? [account.display_name, separator, appName].join(" ")
 		: appName;
+
+        const pathCrimeMode = router.asPath.startsWith("/academic-crimes");
+        if (pathCrimeMode !== crimeMode) {
+            setCrimeMode(pathCrimeMode);
+        }
 
 	return (
 		<>
