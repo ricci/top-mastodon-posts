@@ -7,17 +7,13 @@ import {
 	AlertDescription,
 	AlertIcon,
 	AlertTitle,
-	Card,
-	CardBody,
 	Container,
         Box,
 	Flex,
-	Heading,
 	Progress,
 	Text,
-        HStack
 } from "@chakra-ui/react";
-import { MastodonDisplayName, MastodonStatusEmbed, MastodonProfile, MastodonHashtag, IndexBox, MastodonStatusTable } from "@/components";
+import { IndexBox, MastodonProfile, MastodonStatusTable } from "@/components";
 import Head from "next/head";
 import { appName, separator } from "@/library";
 
