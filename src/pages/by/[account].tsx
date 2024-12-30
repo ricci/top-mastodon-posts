@@ -1,21 +1,26 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMastodonAccount, useMastodonTopStatuses, useWebfinger } from "@/hooks";
 import {
 	Alert,
 	AlertDescription,
 	AlertIcon,
 	AlertTitle,
-	Container,
         Box,
+	Container,
 	Flex,
+        FormControl,
+        FormLabel,
 	Progress,
+        Switch,
 	Text,
 } from "@chakra-ui/react";
 import { IndexBox, MastodonProfile, MastodonStatusTable } from "@/components";
 import Head from "next/head";
 import { appName, separator } from "@/library";
+import { LuVenetianMask } from "react-icons/lu";
+
 
 
 const TopPosts: NextPage = () => {
@@ -46,6 +51,14 @@ const TopPosts: NextPage = () => {
             setCrimeMode(pathCrimeMode);
         }
 
+        function handleSwitch() {
+            if (router.asPath.startsWith("/academic-crimes")) {
+               router.replace(router.asPath.replace("/academic-crimes/","/by/"));
+            } else {
+               router.replace(router.asPath.replace("/by/","/academic-crimes/"));
+            }
+        }
+
 	return (
 		<>
 			<Head>
@@ -57,6 +70,12 @@ const TopPosts: NextPage = () => {
 			</Head>
 
 			<Container maxWidth = "container.xl">
+		                <FormControl display='flex' alignItems='center'>
+                                  <FormLabel htmlFor='crime-mode' mb='0'>
+                                      <LuVenetianMask />
+                                  </FormLabel>
+                                  <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} />
+                                </FormControl>
 		                <Flex direction="row" marginBottom={10}>
                                     <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
                                     <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
