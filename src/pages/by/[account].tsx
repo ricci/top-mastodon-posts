@@ -1,6 +1,6 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useMastodonAccount, useMastodonTopStatuses, useWebfinger } from "@/hooks";
 import {
 	Alert,
@@ -53,6 +53,22 @@ const TopPosts: NextPage = () => {
             setCrimeMode(pathCrimeMode);
         }
 
+        const [crimeStatusById, setCrimeStatusById] = useState<Record<string, { loading: boolean; error: boolean }>>({});
+
+        useEffect(() => {
+            setCrimeStatusById({});
+        }, [statuses]);
+
+        const handleCrimeStatus = useCallback((id: string, status: { loading: boolean; error: boolean }) => {
+            setCrimeStatusById(prev => ({ ...prev, [id]: status }));
+        }, []);
+
+        const crimeStatuses = Object.values(crimeStatusById);
+        const crimeTotal = statuses ? Math.min(statuses.length, 100) : 0;
+        const crimeDoneCount = crimeStatuses.filter(s => !s.loading).length;
+        const crimeErrorCount = crimeStatuses.filter(s => s.error).length;
+        const isCrimesLoading = crimeMode && !isLoadingStatuses && crimeTotal > 0 && crimeDoneCount < crimeTotal;
+
         function handleSwitch() {
             if (router.asPath.startsWith("/academic-crimes")) {
                router.replace(router.asPath.replace("/academic-crimes/","/by/"));
@@ -71,6 +87,18 @@ const TopPosts: NextPage = () => {
                                   <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details. This feature is frequently slow and/or broken depending on other crimes in progress and/or how long it's been since I rebooted the janky box in my closet attached to the GPU, sorry"><Text><LuCircleHelp /></Text></Tooltip>
 	                          </HStack>
                                 </FormControl>
+
+        const crimesProgress = isCrimesLoading && (
+                                <Flex gap={4} alignItems="center">
+                                    <Text>🚨 crimes in progress</Text>
+                                    <Progress
+                                        flexGrow={1}
+                                        height={4}
+                                        max={1}
+                                        value={crimeDoneCount / crimeTotal}
+                                    />
+                                </Flex>
+                                );
 
 	return (
 		<>
@@ -110,9 +138,17 @@ const TopPosts: NextPage = () => {
 						</Alert>
 					)}
 
+					{crimeMode && crimeErrorCount > 0 && (
+						<Alert status="error">
+							<AlertIcon />
+							<AlertTitle>Failed to commit {crimeErrorCount} crime{crimeErrorCount === 1 ? "" : "s"}</AlertTitle>
+							<AlertDescription>The LLM backend may be slow or unavailable right now. Try again later.</AlertDescription>
+						</Alert>
+					)}
+
 				</Flex>
 
-                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={crimesSwitch} />}
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={crimesSwitch} crimesProgress={crimesProgress} onCrimeStatus={handleCrimeStatus} />}
 			</Container>
 		</>
 	);

@@ -10,21 +10,34 @@ import parse from 'html-react-parser';
 import truncate from 'truncate-html';
 import { useCriminalizeTitle, useCriminalizeVenue } from "@/hooks";
 import TextTransition, { presets } from 'react-text-transition';
+import { useEffect } from "react";
 
 const formatter = new Intl.NumberFormat();
 
 export default function MastodonStatusRow({
     status,
     isLoading,
-    crimeMode
+    crimeMode,
+    onCrimeStatus
 }: {
     status: MastodonStatus;
     isLoading: boolean;
     crimeMode: boolean;
+    onCrimeStatus?: (id: string, status: { loading: boolean; error: boolean }) => void;
 }) {
     const post: string = status.content;
-    const { data: crimTitle } = useCriminalizeTitle({ post, wait: isLoading, enable: crimeMode });
-    const { data: crimVenue } = useCriminalizeVenue({ post, wait: isLoading, enable: crimeMode });
+    const { data: crimTitle, error: crimTitleError, isLoading: isCrimTitleLoading } = useCriminalizeTitle({ post, wait: isLoading, enable: crimeMode });
+    const { data: crimVenue, error: crimVenueError, isLoading: isCrimVenueLoading } = useCriminalizeVenue({ post, wait: isLoading, enable: crimeMode });
+
+    useEffect(() => {
+        if (crimeMode) {
+            onCrimeStatus?.(status.id, {
+                loading: isCrimTitleLoading || isCrimVenueLoading,
+                error: !!(crimTitleError || crimVenueError),
+            });
+        }
+    }, [crimeMode, status.id, isCrimTitleLoading, isCrimVenueLoading, crimTitleError, crimVenueError, onCrimeStatus]);
+
     return(
         <Tr key={status.id}>
           <Td>{
