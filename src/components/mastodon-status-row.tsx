@@ -26,8 +26,8 @@ export default function MastodonStatusRow({
     onCrimeStatus?: (id: string, status: { loading: boolean; error: boolean }) => void;
 }) {
     const post: string = status.content;
-    const { data: crimTitle, error: crimTitleError, isLoading: isCrimTitleLoading } = useCriminalizeTitle({ post, wait: isLoading, enable: crimeMode });
-    const { data: crimVenue, error: crimVenueError, isLoading: isCrimVenueLoading } = useCriminalizeVenue({ post, wait: isLoading, enable: crimeMode });
+    const { data: crimTitle, error: crimTitleError, isLoading: isCrimTitleLoading } = useCriminalizeTitle({ post, wait: isLoading, enable: crimeMode, id: status.id });
+    const { data: crimVenue, error: crimVenueError, isLoading: isCrimVenueLoading } = useCriminalizeVenue({ post, wait: isLoading, enable: crimeMode, id: status.id });
 
     useEffect(() => {
         if (crimeMode) {

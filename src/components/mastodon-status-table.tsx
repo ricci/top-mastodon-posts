@@ -8,6 +8,7 @@ import {
     Td
 } from "@chakra-ui/react";
 import { MastodonStatusRow } from "@/components";
+import { constants } from "@/library";
 
 export default function MastodonStatusTable({
     statuses,
@@ -39,7 +40,7 @@ export default function MastodonStatusTable({
                 )}
             </Thead>
             <Tbody>
-                {statuses && statuses.sort((a,b) => b.reblogs_count - a.reblogs_count).slice(0,100).map(x => <MastodonStatusRow key={x.id} status={x} isLoading={isLoading} crimeMode={crimeMode} onCrimeStatus={onCrimeStatus}/>)}
+                {statuses && statuses.sort((a,b) => b.reblogs_count - a.reblogs_count).slice(0,constants.maxDisplayedStatuses).map(x => <MastodonStatusRow key={x.id} status={x} isLoading={isLoading} crimeMode={crimeMode} onCrimeStatus={onCrimeStatus}/>)}
             </Tbody>
         </Table>
     );

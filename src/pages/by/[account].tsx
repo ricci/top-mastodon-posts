@@ -13,6 +13,7 @@ import {
 	Flex,
         FormControl,
         FormLabel,
+        IconButton,
 	Progress,
         Switch,
 	Text,
@@ -20,8 +21,8 @@ import {
 } from "@chakra-ui/react";
 import { IndexBox, MastodonProfile, MastodonStatusTable } from "@/components";
 import Head from "next/head";
-import { appName, separator } from "@/library";
-import { LuVenetianMask, LuCircleHelp } from "react-icons/lu";
+import { appName, constants, separator } from "@/library";
+import { LuVenetianMask, LuCircleHelp, LuRefreshCw } from "react-icons/lu";
 
 
 
@@ -41,7 +42,8 @@ const TopPosts: NextPage = () => {
 		isLoading: isLoadingStatuses,
 		progress: statusesLoadingProgress,
 		topStatuses: statuses,
-	        topHashtags: hashtags
+	        topHashtags: hashtags,
+	        refresh: refreshStatuses
 	} = useMastodonTopStatuses({ server, username, httpserver });
 
 	const title = account
@@ -64,7 +66,7 @@ const TopPosts: NextPage = () => {
         }, []);
 
         const crimeStatuses = Object.values(crimeStatusById);
-        const crimeTotal = statuses ? Math.min(statuses.length, 100) : 0;
+        const crimeTotal = statuses ? Math.min(statuses.length, constants.maxDisplayedStatuses) : 0;
         const crimeDoneCount = crimeStatuses.filter(s => !s.loading).length;
         const crimeErrorCount = crimeStatuses.filter(s => s.error).length;
         const isCrimesLoading = crimeMode && !isLoadingStatuses && crimeTotal > 0 && crimeDoneCount < crimeTotal;
@@ -114,6 +116,18 @@ const TopPosts: NextPage = () => {
 		                <Flex direction="row" marginBottom={10}>
                                     <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
                                     <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
+                                    <Box>
+                                        <Tooltip label="Force refresh: re-fetch this account's posts instead of using the cached copy (cache expires after a week)">
+                                            <IconButton
+                                                aria-label="Force refresh"
+                                                colorScheme="blue"
+                                                isDisabled={isLoadingStatuses}
+                                                onClick={refreshStatuses}
+                                            >
+                                                <LuRefreshCw />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </Box>
 	                        </Flex>
 
 				<Flex direction="column" gap={8}>
