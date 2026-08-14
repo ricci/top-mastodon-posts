@@ -67,7 +67,7 @@ const TopPosts: NextPage = () => {
                                   <FormLabel htmlFor='crime-mode' mb='0'>
                                       <LuVenetianMask />
                                   </FormLabel>
-                                  <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} size='sm' />
+                                  <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} size='sm' marginRight={2} />
                                   <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details. This feature is frequently slow and/or broken depending on other crimes in progress and/or how long it's been since I rebooted the janky box in my closet attached to the GPU, sorry"><Text><LuCircleHelp /></Text></Tooltip>
 	                          </HStack>
                                 </FormControl>
