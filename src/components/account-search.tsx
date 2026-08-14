@@ -122,7 +122,7 @@ export default function AccountSearch() {
                                                   <HStack direction='row'>
                                                     <Radio value='by' onChange={() => setNextPage("by")}>Toots</Radio>
                                                     <Radio value='academic-crimes' onChange={() => setNextPage("academic-crimes")}>Academic Crimes</Radio>
-                                                    <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details"><Text><LuCircleHelp /></Text></Tooltip>
+                                                    <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details. This feature is frequently slow and/or broken depending on other crimes in progress and/or how long it's been since I rebooted the janky box in my closet attached to the GPU, sorry"><Text><LuCircleHelp /></Text></Tooltip>
                                                   </HStack>
                                                 </RadioGroup>
 			                    </VStack>

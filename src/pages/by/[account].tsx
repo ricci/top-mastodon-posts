@@ -16,11 +16,12 @@ import {
 	Progress,
         Switch,
 	Text,
+        Tooltip,
 } from "@chakra-ui/react";
 import { IndexBox, MastodonProfile, MastodonStatusTable } from "@/components";
 import Head from "next/head";
 import { appName, separator } from "@/library";
-import { LuVenetianMask } from "react-icons/lu";
+import { LuVenetianMask, LuCircleHelp } from "react-icons/lu";
 
 
 
@@ -67,6 +68,7 @@ const TopPosts: NextPage = () => {
                                       <LuVenetianMask />
                                   </FormLabel>
                                   <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} size='sm' />
+                                  <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details. This feature is frequently slow and/or broken depending on other crimes in progress and/or how long it's been since I rebooted the janky box in my closet attached to the GPU, sorry"><Text><LuCircleHelp /></Text></Tooltip>
 	                          </HStack>
                                 </FormControl>
 
