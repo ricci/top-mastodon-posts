@@ -1,11 +1,16 @@
 import { Box, HStack, Table, Text, Thead, Tbody, Tooltip, Tr, Td } from "@chakra-ui/react";
-import { MastodonStatus } from "@/types";
+import { MastodonStatus, RankingMetric } from "@/types";
+import { metricTooltip } from "@/library";
 import { LuCircleHelp } from "react-icons/lu";
 
 export default function MastodonProfile({
-    statuses
+    statuses,
+    metric,
+    onToggleMetric
 }: {
     statuses: Array<MastodonStatus> | undefined;
+    metric: RankingMetric;
+    onToggleMetric: () => void;
 }) {
     let bIndex: number = 0;
     let fIndex: number = 0;
@@ -59,15 +64,15 @@ export default function MastodonProfile({
               <Tbody>
                   <Tr>
                     <Td>
-                      <HStack gap={1} display="inline-flex">
-                        <Text>Citations</Text>
-                        <Tooltip label="Called &quot;boosts&quot; by boring people.">
+                      <Tooltip label={metricTooltip(metric)}>
+                        <HStack gap={1} display="inline-flex" cursor="pointer" onClick={onToggleMetric}>
+                          <Text>Citations</Text>
                           <Box as="span" display="inline-flex"><LuCircleHelp size={14} /></Box>
-                        </Tooltip>
-                      </HStack>
+                        </HStack>
+                      </Tooltip>
                     </Td>
-                    <Td textAlign="right">{formatter.format(totalBoosts)}</Td>
-                    <Td textAlign="right">{formatter.format(totalBoosts1y)}</Td>
+                    <Td textAlign="right">{formatter.format(metric === "boosts" ? totalBoosts : totalFavs)}</Td>
+                    <Td textAlign="right">{formatter.format(metric === "boosts" ? totalBoosts1y : totalFavs1y)}</Td>
                   </Tr>
                   <Tr>
                     <Td>
@@ -85,7 +90,7 @@ export default function MastodonProfile({
                     <Td>
                       <HStack gap={1} display="inline-flex">
                         <Text>f-Index</Text>
-                        <Tooltip label="h-index, but for ❤️">
+                        <Tooltip label="h-index, but for favorites">
                           <Box as="span" display="inline-flex"><LuCircleHelp size={14} /></Box>
                         </Tooltip>
                       </HStack>

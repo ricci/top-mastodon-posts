@@ -3,6 +3,7 @@ export { default as appName } from "./app-name";
 export * as cache from "./cache";
 export * as constants from "./constants";
 export { computeTopHashtags } from "./hashtags";
+export { metricCount, metricTooltip } from "./metric";
 export * as priorityQueue from "./priority-queue";
 export { default as separator } from "./separator";
 export { default as swrFetcher } from "./swr-fetcher";

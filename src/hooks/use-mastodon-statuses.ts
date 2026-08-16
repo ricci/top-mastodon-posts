@@ -1,5 +1,5 @@
 import { MastodonStatus, MastodonTag } from "@/types";
-import { cache, computeTopHashtags, constants } from "@/library";
+import { cache, computeTopHashtags, constants, metricCount } from "@/library";
 import ky, { HTTPError, SearchParamsOption } from "ky";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useMastodonAccount from "./use-mastodon-account";
@@ -112,9 +112,17 @@ export default function useMastodonStatuses({
 				return;
 			}
 
-			const shown = [...collected]
-				.sort((a, b) => b.reblogs_count - a.reblogs_count)
+			const topByBoosts = [...collected]
+				.sort((a, b) => metricCount(b, "boosts") - metricCount(a, "boosts"))
 				.slice(0, constants.maxDisplayedStatuses);
+			const topByFavorites = [...collected]
+				.sort((a, b) => metricCount(b, "favorites") - metricCount(a, "favorites"))
+				.slice(0, constants.maxDisplayedStatuses);
+			const shownById = new Map<string, MastodonStatus>();
+			for (const status of [...topByBoosts, ...topByFavorites]) {
+				shownById.set(status.id, status);
+			}
+			const shown = Array.from(shownById.values());
 			const hashtags = computeTopHashtags(collected);
 			await cache.writeStatusCache(server!, username!, shown, hashtags);
 			if (cancelled) return;

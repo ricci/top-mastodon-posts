@@ -24,6 +24,7 @@ import {
 import { IndexBox, MastodonProfile, MastodonStatusTable } from "@/components";
 import Head from "next/head";
 import { appName, constants, separator } from "@/library";
+import { RankingMetric } from "@/types";
 import { LuVenetianMask, LuRefreshCw } from "react-icons/lu";
 
 
@@ -57,6 +58,11 @@ const TopPosts: NextPage = () => {
         if (pathCrimeMode !== crimeMode) {
             setCrimeMode(pathCrimeMode);
         }
+
+        const [metric, setMetric] = useState<RankingMetric>("boosts");
+        const toggleMetric = useCallback(() => {
+            setMetric(m => m === "boosts" ? "favorites" : "boosts");
+        }, []);
 
         const [crimeStatusById, setCrimeStatusById] = useState<Record<string, { loading: boolean; error: boolean }>>({});
 
@@ -144,7 +150,7 @@ const TopPosts: NextPage = () => {
 			<Container maxWidth = "container.xl">
 		                <Flex direction="row" marginBottom={10}>
                                     <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
-                                    <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
+                                    <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} metric={metric} onToggleMetric={toggleMetric} />}</Box>
 	                        </Flex>
 
 				<Flex direction="column" gap={8}>
@@ -178,7 +184,7 @@ const TopPosts: NextPage = () => {
 
 				</Flex>
 
-                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={titleExtra} crimesProgress={crimesStatus} onCrimeStatus={handleCrimeStatus} />}
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} metric={metric} onToggleMetric={toggleMetric} extra={titleExtra} crimesProgress={crimesStatus} onCrimeStatus={handleCrimeStatus} />}
 			</Container>
 		</>
 	);

@@ -46,3 +46,5 @@ export interface MastodonStatus {
 export interface CrimResponse {
         response: string;
 }
+
+export type RankingMetric = "boosts" | "favorites";

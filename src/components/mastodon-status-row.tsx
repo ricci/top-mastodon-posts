@@ -1,4 +1,4 @@
-import { MastodonStatus } from "@/types";
+import { MastodonStatus, RankingMetric } from "@/types";
 import {
     Tr,
     Td,
@@ -9,6 +9,7 @@ import {
 import parse from 'html-react-parser';
 import truncate from 'truncate-html';
 import { useCriminalizeTitle, useCriminalizeVenue } from "@/hooks";
+import { metricCount } from "@/library";
 import TextTransition, { presets } from 'react-text-transition';
 import { useEffect } from "react";
 
@@ -18,12 +19,14 @@ export default function MastodonStatusRow({
     status,
     isLoading,
     crimeMode,
+    metric,
     rank,
     onCrimeStatus
 }: {
     status: MastodonStatus;
     isLoading: boolean;
     crimeMode: boolean;
+    metric: RankingMetric;
     rank: number;
     onCrimeStatus?: (id: string, status: { loading: boolean; error: boolean }) => void;
 }) {
@@ -64,7 +67,7 @@ export default function MastodonStatusRow({
                     </VStack>
               }
           </Td>
-          <Td isNumeric>{formatter.format(status.reblogs_count)}</Td>
+          <Td isNumeric>{formatter.format(metricCount(status, metric))}</Td>
           <Td>{new Date(status.created_at).getFullYear()}</Td>
         </Tr>
     );
