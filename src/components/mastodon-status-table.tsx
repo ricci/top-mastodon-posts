@@ -30,7 +30,7 @@ export default function MastodonStatusTable({
             <Thead>
                 <Tr>
                   <Td><Text>Title {extra}</Text></Td>
-                  <Td>Citations</Td>
+                  <Td isNumeric>Citations</Td>
                   <Td>Year</Td>
                 </Tr>
                 {crimesProgress && (
