@@ -1,6 +1,6 @@
 import { MastodonStatus } from "@/types";
 import { cache, constants } from "@/library";
-import ky, { SearchParamsOption } from "ky";
+import ky, { HTTPError, SearchParamsOption } from "ky";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useMastodonAccount from "./use-mastodon-account";
 
@@ -30,6 +30,8 @@ export default function useMastodonStatuses({
 	const [refreshNonce, setRefreshNonce] = useState(0);
 	const bypassCacheRef = useRef(false);
 	const [progress, setProgress] = useState<number | undefined>(undefined);
+	const [rateLimited, setRateLimited] = useState(false);
+	const [fetchError, setFetchError] = useState<Error | undefined>(undefined);
 
 	useEffect(() => {
 		if (!account || !server || !username) return;
@@ -37,6 +39,8 @@ export default function useMastodonStatuses({
 		let cancelled = false;
 		setStatuses(undefined);
 		setProgress(undefined);
+		setRateLimited(false);
+		setFetchError(undefined);
 
 		async function getStatuses() {
 			const bypassCache = bypassCacheRef.current;
@@ -59,6 +63,7 @@ export default function useMastodonStatuses({
 			let moreStatuses: MastodonStatus[];
 			let shouldGetMore = true;
 			let collected: MastodonStatus[] = [];
+			let hitRateLimit = false;
 
 			while (shouldGetMore) {
 				const searchParams: SearchParamsOption = {
@@ -69,12 +74,23 @@ export default function useMastodonStatuses({
 
 				if (maxId) searchParams.max_id = maxId;
 
-				moreStatuses = await ky(
-					`${httpserver}/api/v1/accounts/${account.id}/statuses`,
-					{
-						searchParams,
+				try {
+					moreStatuses = await ky(
+						`${httpserver}/api/v1/accounts/${account.id}/statuses`,
+						{
+							searchParams,
+						}
+					).json<MastodonStatus[]>();
+				} catch (err) {
+					if (cancelled) return;
+
+					if (err instanceof HTTPError && err.response.status === 429) {
+						hitRateLimit = true;
+						break;
 					}
-				).json<MastodonStatus[]>();
+
+					throw err;
+				}
 
 				if (cancelled) return;
 
@@ -87,6 +103,12 @@ export default function useMastodonStatuses({
 
 			if (cancelled) return;
 
+			if (hitRateLimit) {
+				setRateLimited(true);
+				setIsLoading(false);
+				return;
+			}
+
 			const shown = [...collected]
 				.sort((a, b) => b.reblogs_count - a.reblogs_count)
 				.slice(0, constants.maxDisplayedStatuses);
@@ -95,7 +117,11 @@ export default function useMastodonStatuses({
 			setIsLoading(false);
 		}
 
-		getStatuses();
+		getStatuses().catch((err) => {
+			if (cancelled) return;
+			setFetchError(err);
+			setIsLoading(false);
+		});
 
 		return () => {
 			cancelled = true;
@@ -113,5 +139,5 @@ export default function useMastodonStatuses({
 		}
 	}, [account, isLoading, statuses]);
 
-	return { error: accountError, isLoading, progress, statuses, refresh };
+	return { error: accountError ?? fetchError, isLoading, progress, statuses, rateLimited, refresh };
 }

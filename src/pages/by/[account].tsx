@@ -14,10 +14,12 @@ import {
         FormControl,
         FormLabel,
         IconButton,
+        Link,
 	Progress,
         Switch,
 	Text,
         Tooltip,
+        VStack,
 } from "@chakra-ui/react";
 import { IndexBox, MastodonProfile, MastodonStatusTable } from "@/components";
 import Head from "next/head";
@@ -43,6 +45,7 @@ const TopPosts: NextPage = () => {
 		progress: statusesLoadingProgress,
 		topStatuses: statuses,
 	        topHashtags: hashtags,
+	        rateLimited: statusesRateLimited,
 	        refresh: refreshStatuses
 	} = useMastodonTopStatuses({ server, username, httpserver });
 
@@ -86,20 +89,29 @@ const TopPosts: NextPage = () => {
                                       <LuVenetianMask />
                                   </FormLabel>
                                   <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} size='sm' marginRight={2} />
-                                  <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details. This feature is frequently slow and/or broken depending on other crimes in progress and/or how long it's been since I rebooted the janky box in my closet attached to the GPU, sorry"><Text><LuCircleHelp /></Text></Tooltip>
+                                  <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details."><Text><LuCircleHelp /></Text></Tooltip>
 	                          </HStack>
                                 </FormControl>
 
-        const crimesProgress = isCrimesLoading && (
-                                <Flex gap={4} alignItems="center">
-                                    <Text>🚨 crimes in progress</Text>
-                                    <Progress
-                                        flexGrow={1}
-                                        height={4}
-                                        max={1}
-                                        value={crimeDoneCount / crimeTotal}
-                                    />
-                                </Flex>
+        const crimesStatus = crimeMode && (isCrimesLoading || crimeErrorCount > 0) && (
+                                <VStack align="stretch" gap={1}>
+                                    {isCrimesLoading && (
+                                        <Flex gap={4} alignItems="center">
+                                            <Text>🚨 crimes in progress</Text>
+                                            <Progress
+                                                flexGrow={1}
+                                                height={4}
+                                                max={1}
+                                                value={crimeDoneCount / crimeTotal}
+                                            />
+                                        </Flex>
+                                    )}
+                                    {crimeErrorCount > 0 && (
+                                        <Text fontSize="sm" color="orange.500">
+                                            ⚖️ {crimeErrorCount} post{crimeErrorCount === 1 ? "" : "s"} beat the rap on a technicality — tell <Link href="https://discuss.systems/@ricci" target="_blank" textDecoration="underline">@ricci@discuss.systems</Link> the GPU in his closet needs some attention.
+                                        </Text>
+                                    )}
+                                </VStack>
                                 );
 
 	return (
@@ -144,6 +156,13 @@ const TopPosts: NextPage = () => {
 						</Flex>
 					)}
 
+					{!isLoadingStatuses && statusesRateLimited && (
+						<Alert status="warning">
+							<AlertIcon />
+							<AlertDescription>Older posts could not be fetched due to rate limits.</AlertDescription>
+						</Alert>
+					)}
+
 					{statusesError && (
 						<Alert status="error">
 							<AlertIcon />
@@ -152,17 +171,9 @@ const TopPosts: NextPage = () => {
 						</Alert>
 					)}
 
-					{crimeMode && crimeErrorCount > 0 && (
-						<Alert status="error">
-							<AlertIcon />
-							<AlertTitle>Failed to commit {crimeErrorCount} crime{crimeErrorCount === 1 ? "" : "s"}</AlertTitle>
-							<AlertDescription>The LLM backend may be slow or unavailable right now. Try again later.</AlertDescription>
-						</Alert>
-					)}
-
 				</Flex>
 
-                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={crimesSwitch} crimesProgress={crimesProgress} onCrimeStatus={handleCrimeStatus} />}
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={crimesSwitch} crimesProgress={crimesStatus} onCrimeStatus={handleCrimeStatus} />}
 			</Container>
 		</>
 	);

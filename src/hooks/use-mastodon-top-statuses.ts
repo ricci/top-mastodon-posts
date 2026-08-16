@@ -10,7 +10,7 @@ export default function useMastodonTopStatuses({
 	username: string;
 	httpserver: string | undefined;
 }) {
-	const { error, isLoading, progress, statuses, refresh } = useMastodonStatuses({
+	const { error, isLoading, progress, statuses, rateLimited, refresh } = useMastodonStatuses({
 		server,
 		username,
 	        httpserver
@@ -42,5 +42,5 @@ export default function useMastodonTopStatuses({
 		//topStatuses = topStatuses.slice(0, 20);
 	}
 
-	return { error, isLoading, progress, topStatuses, topHashtags, refresh };
+	return { error, isLoading, progress, topStatuses, topHashtags, rateLimited, refresh };
 }
