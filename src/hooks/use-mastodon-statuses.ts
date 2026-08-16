@@ -37,6 +37,7 @@ export default function useMastodonStatuses({
 	useEffect(() => {
 		if (!account || !server || !username) return;
 
+		const accountId = account.id;
 		let cancelled = false;
 		setStatuses(undefined);
 		setProgress(undefined);
@@ -79,7 +80,7 @@ export default function useMastodonStatuses({
 
 				try {
 					moreStatuses = await ky(
-						`${httpserver}/api/v1/accounts/${account.id}/statuses`,
+						`${httpserver}/api/v1/accounts/${accountId}/statuses`,
 						{
 							searchParams,
 						}
