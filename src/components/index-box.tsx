@@ -1,5 +1,6 @@
-import { Table, Thead, Tbody, Tr, Td } from "@chakra-ui/react";
+import { Box, HStack, Table, Text, Thead, Tbody, Tooltip, Tr, Td } from "@chakra-ui/react";
 import { MastodonStatus } from "@/types";
+import { LuCircleHelp } from "react-icons/lu";
 
 export default function MastodonProfile({
     statuses
@@ -50,24 +51,45 @@ export default function MastodonProfile({
     return(<Table>
               <Thead>
                   <Tr>
-                    <Td>Cited by</Td>
+                    <Td></Td>
                     <Td textAlign="right">All</Td>
                     <Td textAlign="right">{thisYear.getFullYear()}</Td>
                   </Tr>
               </Thead>
               <Tbody>
                   <Tr>
-                    <Td>Citations</Td>
+                    <Td>
+                      <HStack gap={1} display="inline-flex">
+                        <Text>Citations</Text>
+                        <Tooltip label="Called &quot;boosts&quot; by boring people.">
+                          <Box as="span" display="inline-flex"><LuCircleHelp size={14} /></Box>
+                        </Tooltip>
+                      </HStack>
+                    </Td>
                     <Td textAlign="right">{formatter.format(totalBoosts)}</Td>
                     <Td textAlign="right">{formatter.format(totalBoosts1y)}</Td>
                   </Tr>
                   <Tr>
-                    <Td>b-Index</Td>
+                    <Td>
+                      <HStack gap={1} display="inline-flex">
+                        <Text>b-Index</Text>
+                        <Tooltip label="h-index, but for boosts">
+                          <Box as="span" display="inline-flex"><LuCircleHelp size={14} /></Box>
+                        </Tooltip>
+                      </HStack>
+                    </Td>
                     <Td textAlign="right">{formatter.format(bIndex)}</Td>
                     <Td textAlign="right">{formatter.format(bIndex1y)}</Td>
                   </Tr>
                   <Tr>
-                    <Td>f-Index</Td>
+                    <Td>
+                      <HStack gap={1} display="inline-flex">
+                        <Text>f-Index</Text>
+                        <Tooltip label="h-index, but for ❤️">
+                          <Box as="span" display="inline-flex"><LuCircleHelp size={14} /></Box>
+                        </Tooltip>
+                      </HStack>
+                    </Td>
                     <Td textAlign="right">{formatter.format(fIndex)}</Td>
                     <Td textAlign="right">{formatter.format(fIndex1y)}</Td>
                   </Tr>
