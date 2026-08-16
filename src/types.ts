@@ -23,6 +23,11 @@ export interface MastodonAccount {
         url: string;
 }
 
+export interface MastodonMediaAttachment {
+        type: string;
+        description: string | null;
+}
+
 export interface MastodonStatus {
 	id: string;
 	favourites_count: number;
@@ -35,6 +40,7 @@ export interface MastodonStatus {
              id: string;
              url: string;
         }>;
+        media_attachments: Array<MastodonMediaAttachment>;
 }
 
 export interface CrimResponse {
