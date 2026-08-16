@@ -1,4 +1,5 @@
 import { MastodonStatus, MastodonTag } from "@/types";
+import { computeTopHashtags } from "@/library";
 import { useMastodonStatuses } from "@/hooks";
 
 export default function useMastodonTopStatuses({
@@ -10,7 +11,7 @@ export default function useMastodonTopStatuses({
 	username: string;
 	httpserver: string | undefined;
 }) {
-	const { error, isLoading, progress, statuses, rateLimited, refresh } = useMastodonStatuses({
+	const { error, isLoading, progress, statuses, cachedHashtags, rateLimited, refresh } = useMastodonStatuses({
 		server,
 		username,
 	        httpserver
@@ -19,26 +20,13 @@ export default function useMastodonTopStatuses({
 	let topStatuses: MastodonStatus[] | undefined = statuses;
 	let topHashtags: Array<MastodonTag> | undefined;
 
-	if (topStatuses) {
+	if (cachedHashtags) {
+		topHashtags = cachedHashtags;
+	} else if (topStatuses) {
 		//topStatuses = topStatuses.filter((status) => status.favourites_count > 0);
 		//topStatuses.sort((a, b) => b.reblogs_count - a.reblogs_count);
 
-	        // Find most-used hashtags
-	        let hashtagCounts = new Map();
-	        let hashtagURLs = new Map();
-	        let allHashtags = topStatuses.map(x => x.tags).flat();
-	        for (const element of allHashtags) {
-	            if (! hashtagURLs.has(element.name)) {
-	                hashtagURLs.set(element.name, element.url);
-                    }
-	            if (hashtagCounts.has(element.name)) {
-	                hashtagCounts.set(element.name, hashtagCounts.get(element.name) + 1);
-                    } else {
-	                hashtagCounts.set(element.name, 1);
-                    }
-	        }
-	        
-	        topHashtags = Array.from(hashtagCounts.keys()).sort((a,b) => hashtagCounts.get(b) - hashtagCounts.get(a)).slice(0,3).map(function (x) { return {name: x, url: hashtagURLs.get(x)}});
+	        topHashtags = computeTopHashtags(topStatuses);
 		//topStatuses = topStatuses.slice(0, 20);
 	}
 

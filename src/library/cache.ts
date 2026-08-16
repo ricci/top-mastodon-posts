@@ -1,4 +1,4 @@
-import { CrimResponse, MastodonStatus } from "@/types";
+import { CrimResponse, MastodonStatus, MastodonTag } from "@/types";
 
 const dbName = "top-mastodon-posts";
 const statusStoreName = "statuses";
@@ -6,9 +6,13 @@ const crimeStoreName = "crimes";
 const dbVersion = 2;
 const cacheTtlMs = 7 * 24 * 60 * 60 * 1000; // 1 week
 
-interface StatusCacheEntry {
-	cachedAt: number;
+export interface StatusCacheData {
 	statuses: MastodonStatus[];
+	hashtags: MastodonTag[];
+}
+
+interface StatusCacheEntry extends StatusCacheData {
+	cachedAt: number;
 }
 
 interface CrimeCacheEntry {
@@ -89,7 +93,7 @@ function hasIndexedDb() {
 export async function readStatusCache(
 	server: string,
 	username: string
-): Promise<MastodonStatus[] | undefined> {
+): Promise<StatusCacheData | undefined> {
 	if (!hasIndexedDb()) return undefined;
 
 	try {
@@ -101,7 +105,7 @@ export async function readStatusCache(
 			return undefined;
 		}
 
-		return entry.statuses;
+		return { statuses: entry.statuses, hashtags: entry.hashtags };
 	} catch (err) {
 		console.warn("Failed to read status cache", err);
 		return undefined;
@@ -111,12 +115,13 @@ export async function readStatusCache(
 export async function writeStatusCache(
 	server: string,
 	username: string,
-	statuses: MastodonStatus[]
+	statuses: MastodonStatus[],
+	hashtags: MastodonTag[]
 ) {
 	if (!hasIndexedDb()) return;
 
 	try {
-		const entry: StatusCacheEntry = { cachedAt: Date.now(), statuses };
+		const entry: StatusCacheEntry = { cachedAt: Date.now(), statuses, hashtags };
 		await idbPut(statusStoreName, statusCacheKey(server, username), entry);
 	} catch (err) {
 		console.warn("Failed to write status cache", err);

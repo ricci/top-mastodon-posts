@@ -1,5 +1,5 @@
-import { MastodonStatus } from "@/types";
-import { cache, constants } from "@/library";
+import { MastodonStatus, MastodonTag } from "@/types";
+import { cache, computeTopHashtags, constants } from "@/library";
 import ky, { HTTPError, SearchParamsOption } from "ky";
 import { useCallback, useEffect, useRef, useState } from "react";
 import useMastodonAccount from "./use-mastodon-account";
@@ -32,6 +32,7 @@ export default function useMastodonStatuses({
 	const [progress, setProgress] = useState<number | undefined>(undefined);
 	const [rateLimited, setRateLimited] = useState(false);
 	const [fetchError, setFetchError] = useState<Error | undefined>(undefined);
+	const [cachedHashtags, setCachedHashtags] = useState<MastodonTag[] | undefined>(undefined);
 
 	useEffect(() => {
 		if (!account || !server || !username) return;
@@ -41,6 +42,7 @@ export default function useMastodonStatuses({
 		setProgress(undefined);
 		setRateLimited(false);
 		setFetchError(undefined);
+		setCachedHashtags(undefined);
 
 		async function getStatuses() {
 			const bypassCache = bypassCacheRef.current;
@@ -52,7 +54,8 @@ export default function useMastodonStatuses({
 				const cached = await cache.readStatusCache(server!, username!);
 				if (cancelled) return;
 				if (cached) {
-					setStatuses(cached);
+					setStatuses(cached.statuses);
+					setCachedHashtags(cached.hashtags);
 					return;
 				}
 			}
@@ -112,7 +115,8 @@ export default function useMastodonStatuses({
 			const shown = [...collected]
 				.sort((a, b) => b.reblogs_count - a.reblogs_count)
 				.slice(0, constants.maxDisplayedStatuses);
-			await cache.writeStatusCache(server!, username!, shown);
+			const hashtags = computeTopHashtags(collected);
+			await cache.writeStatusCache(server!, username!, shown, hashtags);
 			if (cancelled) return;
 			setIsLoading(false);
 		}
@@ -139,5 +143,5 @@ export default function useMastodonStatuses({
 		}
 	}, [account, isLoading, statuses]);
 
-	return { error: accountError ?? fetchError, isLoading, progress, statuses, rateLimited, refresh };
+	return { error: accountError ?? fetchError, isLoading, progress, statuses, cachedHashtags, rateLimited, refresh };
 }
