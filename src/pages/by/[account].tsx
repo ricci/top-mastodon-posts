@@ -24,7 +24,7 @@ import {
 import { IndexBox, MastodonProfile, MastodonStatusTable } from "@/components";
 import Head from "next/head";
 import { appName, constants, separator } from "@/library";
-import { LuVenetianMask, LuCircleHelp, LuRefreshCw } from "react-icons/lu";
+import { LuVenetianMask, LuRefreshCw } from "react-icons/lu";
 
 
 
@@ -82,16 +82,33 @@ const TopPosts: NextPage = () => {
             }
         }
 
-        const crimesSwitch = 
+        const crimesSwitch =
 		                <FormControl display='inline-block' width='minW' alignItems='center' paddingLeft={5}>
+	                          <Tooltip label="Uses an LLM to commit academic crimes and make your toots sound serious. See How it Works and Privacy for details.">
 	                          <HStack gap={0}>
                                   <FormLabel htmlFor='crime-mode' mb='0'>
                                       <LuVenetianMask />
                                   </FormLabel>
-                                  <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} size='sm' marginRight={2} />
-                                  <Tooltip label="Uses an LLM to make your toots sound serious. See How it Works and Privacy for details."><Text><LuCircleHelp /></Text></Tooltip>
+                                  <Switch id='crime-mode' isChecked={crimeMode} onChange={handleSwitch} size='sm' />
 	                          </HStack>
+	                          </Tooltip>
                                 </FormControl>
+
+        const titleExtra =
+                                <HStack gap={5} display="inline-flex" verticalAlign="middle">
+                                    {crimesSwitch}
+                                    <Tooltip label="Force refresh: re-fetch this account's posts instead of using the cached copy (cache expires after a week)">
+                                        <IconButton
+                                            aria-label="Force refresh"
+                                            variant="ghost"
+                                            size="xs"
+                                            isDisabled={isLoadingStatuses}
+                                            onClick={refreshStatuses}
+                                        >
+                                            <LuRefreshCw />
+                                        </IconButton>
+                                    </Tooltip>
+                                </HStack>
 
         const crimesStatus = crimeMode && (isCrimesLoading || crimeErrorCount > 0) && (
                                 <VStack align="stretch" gap={1}>
@@ -128,18 +145,6 @@ const TopPosts: NextPage = () => {
 		                <Flex direction="row" marginBottom={10}>
                                     <Box flexGrow={4}>{account && <MastodonProfile account={account} tags={hashtags} />}</Box>
                                     <Box flexGrow={1}>{statuses && <IndexBox statuses={statuses} />}</Box>
-                                    <Box>
-                                        <Tooltip label="Force refresh: re-fetch this account's posts instead of using the cached copy (cache expires after a week)">
-                                            <IconButton
-                                                aria-label="Force refresh"
-                                                colorScheme="blue"
-                                                isDisabled={isLoadingStatuses}
-                                                onClick={refreshStatuses}
-                                            >
-                                                <LuRefreshCw />
-                                            </IconButton>
-                                        </Tooltip>
-                                    </Box>
 	                        </Flex>
 
 				<Flex direction="column" gap={8}>
@@ -173,7 +178,7 @@ const TopPosts: NextPage = () => {
 
 				</Flex>
 
-                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={crimesSwitch} crimesProgress={crimesStatus} onCrimeStatus={handleCrimeStatus} />}
+                                {statuses && <MastodonStatusTable statuses={statuses} isLoading={isLoadingStatuses} crimeMode={crimeMode} extra={titleExtra} crimesProgress={crimesStatus} onCrimeStatus={handleCrimeStatus} />}
 			</Container>
 		</>
 	);
